@@ -266,7 +266,6 @@ class _QuizUIState extends BaseUIState<QuizUI> {
     );
   }
 
-
   void next() {
     if(questionIndex+1==maxQuestionCount)
       {
