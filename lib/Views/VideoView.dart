@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:Courses/Bloc/SubjectBloc.dart';
 import 'package:Courses/Helper/AppColors.dart';
+import 'package:Courses/Helper/AppTextStyle.dart';
+import 'package:Courses/Helper/ThemeConstant.dart';
 import 'package:Courses/Views/BaseUI.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoView extends BaseUI<SubjectBloc> {
   final String  videoUrl;
-  VideoView({required this.videoUrl}) : super(bloc: SubjectBloc());
+  final String  description;
+  VideoView({required this.videoUrl,required this.description}) : super(bloc: SubjectBloc());
 
   @override
   _VideoViewState createState() => _VideoViewState();
@@ -36,65 +39,178 @@ class _VideoViewState extends BaseUIState<VideoView> {
     );
   }
   @override
-  Widget buildUI(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child:  YoutubePlayerBuilder(
-            onExitFullScreen: () {
-              // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
-              SystemChrome.setPreferredOrientations(DeviceOrientation.values);
-            },
-            player: YoutubePlayer(
-              controller: _controller,
-              showVideoProgressIndicator: true,
-              progressIndicatorColor: AppColors.primary,
-              topActions: <Widget>[
-                const SizedBox(width: 8.0),
-                Expanded(
-                  child: Text(
-                    _controller.metadata.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.settings,
-                    color: Colors.white,
-                    size: 25.0,
-                  ),
-                  onPressed: () {
-                    // log('Settings Tapped!');
-                  },
-                ),
-              ],
-              onReady: () {
-                _isPlayerReady = true;
-              },
-              onEnded: (data) {
-                //_controller
-                //   .load(_ids[(_ids.indexOf(data.videoId) + 1) % _ids.length]);
-                _showSnackBar('Next Video Started!');
-              },
-            ),
-            builder: (context, player) => Scaffold(
-              body: ListView(
+  Widget build(BuildContext context) {
+    return OrientationBuilder(builder:
+        (BuildContext context, Orientation orientation) {
+      if (orientation == Orientation.landscape) {
+        return Scaffold(
+          body:
+          SingleChildScrollView(
+              child: Column(
                 children: [
-                  player,
+                  Container(
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child:  YoutubePlayerBuilder(
+                        onExitFullScreen: () {
+                          // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
+                          SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+                        },
+                        player: YoutubePlayer(
+                          controller: _controller,
+                          showVideoProgressIndicator: true,
+                          progressIndicatorColor: AppColors.primary,
+                          topActions: <Widget>[
+                            const SizedBox(width: 8.0),
+                            Expanded(
+                              child: Text(
+                                _controller.metadata.title,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.settings,
+                                color: Colors.white,
+                                size: 25.0,
+                              ),
+                              onPressed: () {
+                                // log('Settings Tapped!');
+                              },
+                            ),
+                          ],
+                          onReady: () {
+                            _isPlayerReady = true;
+                          },
+                          onEnded: (data) {
+                            //_controller
+                            //   .load(_ids[(_ids.indexOf(data.videoId) + 1) % _ids.length]);
+                            _showSnackBar('Next Video Started!');
+                          },
+                        ),
+                        builder: (context, player) => Scaffold(
+                          body: ListView(
+                            children: [
+                              player,
+                            ],
+                          ),
+                        ),
+                      )
+                  ),
                 ],
-              ),
+              )
+
+          ),
+        );
+      } else {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.white,
+
+            centerTitle: true,
+
+            toolbarHeight: 60, // Set this height
+            iconTheme: IconThemeData(color: AppColors.black),
+            brightness: Brightness.light,
+            leadingWidth: 50,
+            title:helper.mainTextView(
+                texts: ["Course"], textsStyle: [AppTextStyle.largeBlackBold]),
+
+            leading: Transform(
+              transform: Matrix4.translationValues(8, 0, 0.0),
+              child: ModalRoute.of(context)?.canPop == true
+                  ? IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  size: 30,
+                  color: AppColors.gray,
+                ),
+
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+                  : null,
             ),
-          )
-        ),
-      ),
-    );
+          ),
+
+          body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                      height: MediaQuery.of(context).size.height/3,
+                      width: MediaQuery.of(context).size.width,
+                      child:  YoutubePlayerBuilder(
+                        onExitFullScreen: () {
+                          // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
+                          SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+                        },
+                        player: YoutubePlayer(
+                          controller: _controller,
+                          showVideoProgressIndicator: true,
+                          progressIndicatorColor: AppColors.primary,
+                          topActions: <Widget>[
+                            const SizedBox(width: 8.0),
+                            Expanded(
+                              child: Text(
+                                _controller.metadata.title,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.settings,
+                                color: Colors.white,
+                                size: 25.0,
+                              ),
+                              onPressed: () {
+                                // log('Settings Tapped!');
+                              },
+                            ),
+                          ],
+                          onReady: () {
+                            _isPlayerReady = true;
+                          },
+                          onEnded: (data) {
+                            //_controller
+                            //   .load(_ids[(_ids.indexOf(data.videoId) + 1) % _ids.length]);
+                            _showSnackBar('Next Video Started!');
+                          },
+                        ),
+                        builder: (context, player) => Scaffold(
+                          body: ListView(
+                            children: [
+                              player,
+                            ],
+                          ),
+                        ),
+                      )
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                    child:Padding(child:
+                    Text("مرض كورو (بالإنجليزية: kuru)‏ مرض تدريجي في الجهاز العصبي المركزي الذي هو نوع من التهاب الدماغ الإسفنجي المعدي موجود في البشر يتسم بتزايد انعدام التناسق الحركي ويصل إلى حد الشلل والوفاة في غضون سنة من ظهور الأعراض، يعتقد أنه ينتقل عن طريق آكل لحوم البشر، خاصة عندما يأكلوا الدماغ، حيث أن جسيمات البريون تتركز بشكل خاص. المرض اختفى تقريبا عندما تم التخلي عن أكل لحوم البشر. كورو مرض غير قابل للشفاء ومن اضطرابات الجهاز العصبي. ومن المعروف عن هذا الوباء انه انتشر في بابوا غينيا الجديدة في منتصف القرن العشرين، ووقت سابق.",
+                      style: TextStyle(color: AppColors.primary,fontSize: 20,),textAlign: TextAlign.end,)
+                      ,padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),),
+
+                  ),
+                ],
+              )
+
+          ),
+        );
+      }
+    });
   }
   RegExp regExp = new RegExp(
     r'.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*',
@@ -246,4 +362,10 @@ class _VideoViewState extends BaseUIState<VideoView> {
        ),
      );
    }
+
+  @override
+  Widget buildUI(BuildContext context) {
+    // TODO: implement buildUI
+    throw UnimplementedError();
+  }
 }

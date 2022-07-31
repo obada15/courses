@@ -13,5 +13,8 @@ class API{
   static String courses = '${baseUrl}courses/ID';
   static String quizzes = '${baseUrl}quizze';
   static String questions = '${baseUrl}questions/ID';
+  static String quizeResult = '${baseUrl}quize-result';
+  static String myQuizzes = '${baseUrl}my-quizzes';
+  static String myCourses = '${baseUrl}my-cources';
 
 }

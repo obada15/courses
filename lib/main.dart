@@ -13,11 +13,11 @@ import 'Views/SubHomeUI.dart';
 
 main () async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
+  /*SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.blueAccent,
     ),
-  );
+  );*/
   await dataStore.getUser();
 
   if(Platform.isAndroid)

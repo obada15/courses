@@ -55,10 +55,10 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
 
                     Container(
                       padding: EdgeInsets.only(
-                        top: 40,
+                        top: 30,
                       ),
                       width: double.infinity,
-                      height: 200,
+                      height: 225,
                       child: ListView.builder(
                           itemCount: data!.subjects!.length,
                           scrollDirection: Axis.horizontal,
@@ -70,11 +70,12 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                             );
                           }),
                     ),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Courses",
+                        "Most Popular Courses",
                         style: GoogleFonts.notoSans(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -93,10 +94,42 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                               isFree: data!.courses![index].is_free==1?true:false,
                               courseID: data!.courses![index].id.toString(),
                               price: data!.courses![index].price.toString(),
+                              description: data!.courses![index].description.toString(),
 
                             );
                           }),
                     ),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Free Courses",
+                        style: GoogleFonts.notoSans(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff232323)),
+                      ),
+                    ),
+                    Container(
+                      child: ListView.builder(
+                          itemCount:  data!.freeCourses!.length,
+                          physics: ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (ctx, int index) {
+                            return CourseTile(
+                              imageURL:  data!.freeCourses![index].image,
+                              title: data!.freeCourses![index].title,
+                              isFree: data!.freeCourses![index].is_free==1?true:false,
+                              courseID: data!.freeCourses![index].id.toString(),
+                              price: data!.freeCourses![index].price.toString(),
+                              description: data!.freeCourses![index].description.toString(),
+
+                            );
+                          }),
+                    ),
+
+
                   ],
                 ),
               ),

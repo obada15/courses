@@ -14,11 +14,13 @@ class SubjectModel {
     this.code,
     this.subjects,
     this.courses,
+    this.freeCourses,
   });
   String? message;
   int? code;
   List<SubjectM>? subjects;
   List<CourseM>? courses;
+  List<CourseM>? freeCourses;
 
   factory SubjectModel.fromJson(Map<String, dynamic> json){
     return SubjectModel(
@@ -26,6 +28,7 @@ class SubjectModel {
       code: json["status_code"] == null ? null : json["status_code"]!,
       subjects: json["data"]['subjects'] == null ? null : List<SubjectM>.from(json["data"]['subjects'].map((x) => SubjectM.fromJson(x))),
       courses: json["data"]['courses'] == null ? null : List<CourseM>.from(json["data"]['courses'].map((x) => CourseM.fromJson(x))),
+      freeCourses: json["data"]['free_courses'] == null ? null : List<CourseM>.from(json["data"]['free_courses'].map((x) => CourseM.fromJson(x))),
     );
   }
 
@@ -34,6 +37,7 @@ class SubjectModel {
     "status_code": code == null ? null : code!,
     "subjects": subjects == null ? null : List<dynamic>.from(subjects!.map((x) => x)),
     "courses": courses == null ? null : List<dynamic>.from(courses!.map((x) => x)),
+    "free_courses": freeCourses == null ? null : List<dynamic>.from(freeCourses!.map((x) => x)),
   };
 }
 
@@ -108,6 +112,7 @@ class CourseM {
     this.is_free,
     this.views,
     this.price,
+    this.is_mine,
     this.created_at,
     this.updated_at,
   });
@@ -120,6 +125,7 @@ class CourseM {
   int ?is_free;
   int ?views;
   int ?price;
+  int ?is_mine;
   String ?created_at;
   String ?updated_at;
 
@@ -134,6 +140,7 @@ class CourseM {
       is_free: json["is_free"] == null ? null : json["is_free"],
       views: json["views"] == null ? null : json["views"],
       price: json["price"] == null ? null : json["price"],
+      is_mine: json["is_mine"] == null ? null : json["is_mine"],
       created_at: json["created_at"] == null ? null : json["created_at"],
       updated_at: json["updated_at"] == null ? null : json["updated_at"],
     );
@@ -148,6 +155,7 @@ class CourseM {
     "is_free": is_free == null ? null : is_free,
     "views": views == null ? null : views,
     "price": price == null ? null : price,
+    "is_mine": is_mine == null ? null : is_mine,
     "created_at": created_at == null ? null : created_at,
     "updated_at": updated_at == null ? null : updated_at,
   };

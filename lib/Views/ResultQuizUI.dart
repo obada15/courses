@@ -4,25 +4,44 @@ import 'package:Courses/Helper/AppTextStyle.dart';
 import 'package:Courses/Helper/ThemeConstant.dart';
 import 'package:Courses/Models/QuizModel.dart';
 import 'package:Courses/Views/BaseUI.dart';
+import 'package:Courses/Views/HomeUI.dart';
+import 'package:Courses/Widget/AppDialogs.dart';
 import 'package:Courses/Widget/CustomAppButton.dart';
 import 'package:Courses/Widget/DiscoButton.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ResultQuizUI extends BaseUI<QuizBloc>  {
   final double totalMark;
   final double quizMark;
   final QuestionModel? data;
-  ResultQuizUI(this.totalMark, this.quizMark,this.data) : super(bloc: QuizBloc());
+  final String? executionQuizTime;
+  final int?quizID;
+  final List<QuestionAnswer>answers;
+  ResultQuizUI(this.quizID,this.totalMark, this.quizMark,this.data,this.executionQuizTime,this.answers) : super(bloc: QuizBloc());
 
   @override
   _QuizResultState createState() => _QuizResultState();
 }
 
 class _QuizResultState  extends BaseUIState<ResultQuizUI> {
+  List<AnswerModel>answersList=[];
+  late QuizResultModel quizResultModel;
+  bool  _isLoading = false;
 
   @override
   void initState() {
+
+    for(int i=0;i<widget.answers.length;i++)
+      {
+        answersList.add(AnswerModel(widget.answers[i].questionID, widget.answers[i].textAnswer));
+      }
+
+
+     quizResultModel=new QuizResultModel(mark: widget.totalMark,execution_time: widget.executionQuizTime,
+        quize_id: widget.quizID,answers_arr: answersList);
+
     super.initState();
   }
 
@@ -51,17 +70,17 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
 
   @override
   Widget buildUI(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constrains) {
-        return Column(
-          children: [
-            Expanded(child: bodyUI()),
-            SizedBox(
-              height: 80,
-            ),
-          ],
-        );
-      },
+    return ModalProgressHUD(
+      inAsyncCall: _isLoading,
+      child: LayoutBuilder(
+        builder: (context, constrains) {
+          return Column(
+            children: [
+              Expanded(child: bodyUI()),
+            ],
+          );
+        },
+      ),
     );
   }
   @override
@@ -73,6 +92,18 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Solving Time: "+widget.executionQuizTime.toString(),
+                style: TextStyle(fontSize: 25.0,color: AppColors.primary,fontWeight: FontWeight.bold),
+              ),
+            ],),
+        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
         //  Expanded(child: quizResultInfo(),flex: 1,),
           Expanded(child: Container(
               alignment: Alignment.topCenter,
@@ -125,19 +156,53 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
               )
           ),flex: 7,),
           Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          Expanded(child: Center(child: Container(
+          Expanded(child: Center(child:
+          Container(
             width: MediaQuery.of(context).size.width * 0.5,
             child: CustomAppButton(
               child: helper.mainTextView(texts: ["Submit"],textsStyle: [AppTextStyle.largeWhiteSemiBold],textAlign: TextAlign.center),
               padding: EdgeInsets.symmetric(vertical: 13),
-              borderRadius: 6,
+              borderRadius: 12,
               color: AppColors.primary,
               onTap: () {
+
+
+                setState(() {
+                  _isLoading = true;
+                });
+                widget.bloc!.quizResult(
+                    quizResultModel,
+                    onError: (val){
+                      print(val.toString());
+                      print("EEEEEEEEE");
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    },
+                    onData: (val){
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      print("VVVVVVVV");
+                      print(val);
+                      if(val.code == 200)
+                      {
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                            builder: (context) => HomeUI()
+                        ),(route){
+                          return false;
+                        });
+                      }
+                      else showErrorDialog(context, val.message??'');
+                    }
+                );
+
 
               },
               elevation: 1,
             ),
-          ),))
+          ),
+          ))
         ],
       ),
     );
@@ -147,3 +212,4 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
 
   }
 }
+

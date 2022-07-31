@@ -202,7 +202,84 @@ class QuestionAnswer {
   String textAnswer;
   QuestionAnswer(this.quizID,this.questionID, this.textOption,this.textAnswer,this.isTrue);
 }
+class AnswerModel {
+  int question_id;
+  String answer;
+  Map<String, dynamic> toJson() => {
+    "question_id": question_id,
+    "answer":  answer,
+  };
 
+  AnswerModel(this.question_id,this.answer);
+}
+class QuizResultModel {
+  QuizResultModel({
+    this.mark,
+    this.execution_time,
+    this.quize_id,
+    this.answers_arr,
+  });
+  double? mark;
+  String? execution_time;
+  int? quize_id;
+  List< AnswerModel>? answers_arr;
+
+  Map<String, dynamic> toJson() => {
+    "mark": mark == null ? null : mark!,
+    "execution_time": execution_time == null ? null : execution_time!,
+    "quize_id": quize_id == null ? null : quize_id!,
+    "answers_arr": answers_arr == null ? null : List<dynamic>.from(answers_arr!.map((x) => x.toJson())),
+  };
+}
+
+class MyQuizModel {
+  MyQuizModel({
+    this.message,
+    this.code,
+    this.quizzes,
+  });
+  String? message;
+  int? code;
+  List< MyQuizM>? quizzes;
+
+  factory MyQuizModel.fromJson(Map<String, dynamic> json){
+    return MyQuizModel(
+      message: json["message"] == null ? null : json["message"]!,
+      code: json["status_code"] == null ? null : json["status_code"]!,
+      quizzes: json["data"]['my_quizzess'] == null ? null : List<MyQuizM>.from(json["data"]['my_quizzess'].map((x) => MyQuizM.fromJson(x))),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    "message": message == null ? null : message!,
+    "status_code": code == null ? null : code!,
+    "my_quizzess": quizzes == null ? null : List<dynamic>.from(quizzes!.map((x) => x)),
+  };
+}
+class MyQuizM {
+  MyQuizM({
+    this.title,
+    this.total_mark,
+    this.user_mark,
+    this.execution_time,
+  });
+
+  String ?title;
+  double ?total_mark;
+  double ?user_mark;
+  String ?execution_time;
+
+
+  factory MyQuizM.fromJson(Map<String, dynamic> json) {
+
+    return MyQuizM(
+      title: json["title"] == null ? null : json["title"],
+      total_mark: json["total_mark"] == null ? null : double.parse(json["total_mark"].toString()),
+      user_mark: json["user_mark"] == null ? null :double.parse( json["user_mark"].toString()),
+      execution_time: json["execution_time"] == null ? null : json["execution_time"],
+    );
+  }
+}
 
 
 

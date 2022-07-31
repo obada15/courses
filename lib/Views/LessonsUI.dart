@@ -2,6 +2,7 @@
 import 'package:Courses/Bloc/LessonBloc.dart';
 import 'package:Courses/Bloc/SubjectBloc.dart';
 import 'package:Courses/Helper/AppColors.dart';
+import 'package:Courses/Helper/ThemeConstant.dart';
 import 'package:Courses/Models/LessonModel.dart';
 import 'package:Courses/Views/BaseUI.dart';
 import 'package:Courses/Views/VideoView.dart';
@@ -14,9 +15,10 @@ import 'dart:math' as math;
 
 class LessonsUI extends BaseUI<LessonBloc> {
   final String courseID;
+  final String description;
   @override
   _LessonsUIState createState() => _LessonsUIState();
-  LessonsUI({required this.courseID}) : super(bloc: LessonBloc());
+  LessonsUI({required this.courseID,required this.description}) : super(bloc: LessonBloc());
 
 }
 
@@ -105,6 +107,7 @@ class _LessonsUIState extends BaseUIState<LessonsUI> with SingleTickerProviderSt
                           MaterialPageRoute(
                             builder: (context) => VideoView(
                               videoUrl: lessons[i].videos![j].link!,
+                              description:lessons[i].videos![j].link! ,
                             ),
                           ),
                         );
@@ -122,7 +125,18 @@ class _LessonsUIState extends BaseUIState<LessonsUI> with SingleTickerProviderSt
                 Column(
                     children: cardsLessons
                 ),
-                Center(child: Text("Soon .. ",style: TextStyle(color: AppColors.primary,fontSize: 20),),)
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                    decoration: ThemeConstant.roundBoxDeco(),
+                    child:SingleChildScrollView(
+                      child: Padding(child:
+                      Text("مرض كورو (بالإنجليزية: kuru)‏ مرض تدريجي في الجهاز العصبي المركزي الذي هو نوع من التهاب الدماغ الإسفنجي المعدي موجود في البشر يتسم بتزايد انعدام التناسق الحركي ويصل إلى حد الشلل والوفاة في غضون سنة من ظهور الأعراض، يعتقد أنه ينتقل عن طريق آكل لحوم البشر، خاصة عندما يأكلوا الدماغ، حيث أن جسيمات البريون تتركز بشكل خاص. المرض اختفى تقريبا عندما تم التخلي عن أكل لحوم البشر. كورو مرض غير قابل للشفاء ومن اضطرابات الجهاز العصبي. ومن المعروف عن هذا الوباء انه انتشر في بابوا غينيا الجديدة في منتصف القرن العشرين، ووقت سابق.مرض كورو (بالإنجليزية: kuru)‏ مرض تدريجي في الجهاز العصبي المركزي الذي هو نوع من التهاب الدماغ الإسفنجي المعدي موجود في البشر يتسم بتزايد انعدام التناسق الحركي ويصل إلى حد الشلل والوفاة في غضون سنة من ظهور الأعراض، يعتقد أنه ينتقل عن طريق آكل لحوم البشر، خاصة عندما يأكلوا الدماغ، حيث أن جسيمات البريون تتركز بشكل خاص. المرض اختفى تقريبا عندما تم التخلي عن أكل لحوم البشر. كورو مرض غير قابل للشفاء ومن اضطرابات الجهاز العصبي. ومن المعروف عن هذا الوباء انه انتشر في بابوا غينيا الجديدة في منتصف القرن العشرين، ووقت سابق.",
+                        style: TextStyle(color: AppColors.primary,fontSize: 20,),textAlign: TextAlign.end,)
+                        ,padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),),
+                    )
+
+                ),
+
               ],
             );
           }

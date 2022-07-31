@@ -38,10 +38,11 @@ class _QuizUIState extends BaseUIState<QuizUI> {
   late double totalMarks=0;
   CustomTimerController _controllerTime = new CustomTimerController();
   late String executionQuizTime;
+  bool enter=false;
   @override
   void initState() {
     // TODO: implement initState
-    _controllerTime.start();
+   // _controllerTime.start();
     super.initState();
   }
   @override
@@ -60,10 +61,9 @@ class _QuizUIState extends BaseUIState<QuizUI> {
       builder: (context, constrains) {
         return Column(
           children: [
+
             Expanded(child: bodyUI()),
-            SizedBox(
-              height: 80,
-            ),
+
           ],
         );
       },
@@ -83,6 +83,17 @@ class _QuizUIState extends BaseUIState<QuizUI> {
 
             data= snapshot.data;
             maxQuestionCount= snapshot.data!.questions!.length;
+            if(enter==false)
+              {
+                for (var i = 0; i < data!.questions![questionIndex].questionSelections!.length; i++) {
+                  if (answers.length == 0) {
+                    _optionSerial[i] =
+                        OptionSelection(String.fromCharCode(65 + i), false);
+                  }
+                }
+                enter=true;
+              }
+
             return  Container(
               alignment: Alignment.center,
               color: AppColors.background,
@@ -90,40 +101,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
               //decoration: ThemeConstant.fullScreenBgBoxDecoration(),
               child: Column(
                 children: [
-                  CustomTimer(
-                    controller: _controllerTime,
-                    from: Duration(seconds: 1),
-                    to: Duration(hours: 3),
-                    interval: Duration(seconds: 1),
-                    builder: (CustomTimerRemainingTime remaining) {
-                      return Row(
-                        children: [
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 40),),
-                          Text(
-                            "${remaining.minutes}:${remaining.seconds}",
-                            style: TextStyle(fontSize: 15.0,color: AppColors.primary),
-                          ),
-                         // Spacer(flex: 1,),
-                          Padding(padding: EdgeInsets.symmetric(horizontal: 10),)
 
-                        ],
-                      );
-                    },
-                    pausedBuilder: (CustomTimerRemainingTime remaining) {
-                      executionQuizTime="${remaining.minutes}:${remaining.seconds}";
-                      return Row(children: [
-                        Padding(padding: EdgeInsets.symmetric(horizontal: 40)),
-                        Text(
-                          "${remaining.minutes}:${remaining.seconds}",
-                          style: TextStyle(fontSize: 15.0,color: AppColors.primary),
-                        ),
-                        Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
-                       // Spacer(flex: 1,),
-
-                      ],);
-                    },
-                    onBuildAction: CustomTimerAction.auto_start,
-                  ),
                   Expanded(child: quizQuestion(data!.questions![questionIndex]),flex: 2,),
                   data!.questions![questionIndex].type!.compareTo("selection")==0?  Expanded(child: questionOptions(data!.questions![questionIndex]),flex: 4,):
                   Expanded(child: Container(
@@ -132,6 +110,41 @@ class _QuizUIState extends BaseUIState<QuizUI> {
                       child: helper.getTextField(answerController, false, answer, answer,"Answer",inputType:
                       TextInputType.multiline,maxLines: 10,minLines: 10,)
                   ),flex: 4,),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                  CustomTimer(
+                    controller: _controllerTime,
+                    from: Duration(seconds: 1),
+                    to: Duration(hours: 3),
+                    interval: Duration(seconds: 1),
+                    builder: (CustomTimerRemainingTime remaining) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${remaining.minutes}:${remaining.seconds}",
+                            style: TextStyle(fontSize: 25.0,color: AppColors.primary,fontWeight: FontWeight.bold),
+                          ),
+
+                        ],
+                      );
+                    },
+                    pausedBuilder: (CustomTimerRemainingTime remaining) {
+                      executionQuizTime="${remaining.minutes}:${remaining.seconds}";
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${remaining.minutes}:${remaining.seconds}",
+                            style: TextStyle(fontSize: 25.0,color: AppColors.primary,fontWeight: FontWeight.bold),
+                          ),
+                        ],);
+                    },
+                    onBuildAction: CustomTimerAction.auto_start,
+
+
+                  ),
                   Expanded(child: footerButton(),flex: 1,),
                 ],
               ),
@@ -266,18 +279,15 @@ class _QuizUIState extends BaseUIState<QuizUI> {
     );
   }
 
-
-
   void next() {
     if(questionIndex+1==maxQuestionCount)
       {
         Fluttertoast.showToast(msg: "My total mark is : "+totalMarks.toString());
         _controllerTime.pause();
-        print("KKKKKKKKKKKKKKK"+executionQuizTime);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => ResultQuizUI(totalMarks,widget.quizMark,data),
+            builder: (context) => ResultQuizUI(int.parse(widget.quizID),totalMarks,widget.quizMark,data,executionQuizTime,answers),
           ),
         );
       }

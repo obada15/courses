@@ -14,14 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class Quizes extends BaseUI<QuizBloc> {
+class MyQuizzes extends BaseUI<QuizBloc> {
   @override
-  _QuizesState createState() => _QuizesState();
-  Quizes() : super(bloc: QuizBloc());
+  _MyQuizzesState createState() => _MyQuizzesState();
+  MyQuizzes() : super(bloc: QuizBloc());
 
 }
 
-class _QuizesState extends BaseUIState<Quizes> {
+class _MyQuizzesState extends BaseUIState<MyQuizzes> {
 
   @override
   void initState() {
@@ -33,8 +33,8 @@ class _QuizesState extends BaseUIState<Quizes> {
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "Quizes",
-        nameUI: "Quizes"
+        "My Quizzes",
+        nameUI: "My Quizzes"
     );
   }
 
@@ -55,19 +55,20 @@ class _QuizesState extends BaseUIState<Quizes> {
   }
   @override
   Widget bodyUI() {
-    return StreamBuilder<QuizModel?>(
+    return StreamBuilder<MyQuizModel?>(
       //favorite api stream
-        stream: widget.bloc!.dataController,
+        stream: widget.bloc!.dataControllerMyQuizzes,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == null || snapshot.data!.quizzes!.isEmpty) {
               return helper.noDataFound(
                   context, "no data found" + "\n" + "pls try again");
             }
-            QuizModel? data= snapshot.data;
+            MyQuizModel? data= snapshot.data;
 
             return Column(
               children: [
+                Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                 Expanded(
                   child: categoryListView(data!),
                 ),
@@ -80,37 +81,29 @@ class _QuizesState extends BaseUIState<Quizes> {
 
         });
   }
-  Widget categoryListView(QuizModel quiz) {
+
+  Widget categoryListView(MyQuizModel quiz) {
     return SingleChildScrollView(
-      child: Center(child: Wrap(
-        spacing: 20,
-        runSpacing: 30,
-        direction: Axis.horizontal,
-        children: quiz.quizzes!
-            .map((x) => GestureDetector(
-          child: categoryListViewItem(x),
-          onTap: () {
-            print(x.id);
-            pushNewScreen(context, screen: QuizUI(
-              quizID: x.id.toString(),
-              quizMark: double.parse(x.mark.toString()),
-            ),
-              withNavBar:false,
-            );
-          },
-        ))
-            .toList(),
-      ),)
+        child: Center(child: Wrap(
+          spacing: 20,
+          runSpacing: 30,
+          direction: Axis.horizontal,
+          children: quiz.quizzes!
+              .map((x) => GestureDetector(
+            child: categoryListViewItem(x),
+          ))
+              .toList(),
+        ),)
     );
   }
 
-  Widget categoryListViewItem(QuizM quizM) {
+  Widget categoryListViewItem(MyQuizM quizM) {
     return Container(
       width: 160,
       alignment: Alignment.center,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: Colors.transparent,
+          color: AppColors.silver,
           borderRadius: BorderRadius.all(Radius.circular(15))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -118,10 +111,12 @@ class _QuizesState extends BaseUIState<Quizes> {
         children: [
           Image(
             image: AssetImage("assets/quiz.png"),
-            width: 130,
+            width: 100,
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          helper.mainTextView(texts: [quizM!.title!],textsStyle: [AppTextStyle.mediumBlackBold])
+          helper.mainTextView(texts: [quizM!.title!+"\n",quizM.user_mark.toString()+" / "+quizM.total_mark.toString()+"\n"
+              "","Solving Time : "+quizM.execution_time!],textsStyle: [AppTextStyle.largeBlackBold,
+            AppTextStyle.mediumBlackBold,AppTextStyle.smallBlackBold],textAlign: TextAlign.center)
         ],
       ),
     );
@@ -129,8 +124,8 @@ class _QuizesState extends BaseUIState<Quizes> {
   @override
   void retry() {
     super.retry();
-    widget.bloc!.dataController.sink.add(null);
-    widget.bloc!.getRequest();
+    widget.bloc!.dataControllerMyQuizzes.sink.add(null);
+    widget.bloc!.getMyQuizRequest();
   }
   @override
   void init() {

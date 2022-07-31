@@ -21,7 +21,7 @@ class ApiProvider{
   Map<String, String> getHeader({var isAuth = true}){
     return {
       "Accept": "application/json",
-      "Authorization": (dataStore.user == null || !isAuth) ? '' :"Bearer "+ (dataStore?.user?.data?.token?? "")
+      "Authorization": (dataStore.user == null || !isAuth) ? '' :"Bearer 1|9NBggXHPNtsSvrbjTwm4pMgjNzBgQyoVTdZoSPMo"/*+ (dataStore?.user?.data?.token?? "")*/
     };
   }
   Map<String, String> getSignUpHeader(){
@@ -192,7 +192,7 @@ class ApiProvider{
     return response;
   }
 
-  _postRequest(String url, dynamic body, {Map<String, String> ?header , Map<String, dynamic> ?queryParameters}) async {
+  _postRequest(String url, Map<String, dynamic> body, {Map<String, String> ?header , Map<String, dynamic> ?queryParameters}) async {
     print("xxxx6");
 
     if (header == null)
@@ -203,11 +203,13 @@ class ApiProvider{
     {
       uri= uri.replace(queryParameters: queryParameters);
     }
+
     final response =
-    await http.post(uri, headers: header, body: body).timeout(Duration(seconds: 15),onTimeout: (){ // handle Timeout
+    await http.post(uri, headers: header, body: jsonEncode(body)).timeout(Duration(seconds: 15),onTimeout: (){ // handle Timeout
       apiTacking(url: url.toString(),method: "POST",body: body,header: header,queryParameters: queryParameters);
       throw "timeOut";
     }).catchError((error){ //any error
+
       apiTacking(url: url.toString(),method: "POST",body: body,header: header,queryParameters: queryParameters);
       throw error;
     });
@@ -222,6 +224,8 @@ class ApiProvider{
 
     try{
       FormData _formData = formData == null ? FormData.fromMap(body) : formData;
+      print("HHHHHHHhhh");
+      print(FormData.fromMap(body).toString());
       final response = await dio.post(url ,data: _formData , options:Options(
           headers: header ,responseType: ResponseType.plain ),queryParameters: queryParameters );
       apiTacking(url: url,method: "DIO",body: "${_formData.files} ${response.data} \n ${response.extra}",header: header,queryParameters: queryParameters);
@@ -292,6 +296,23 @@ class ApiProvider{
     var response = await _loadData(ReqType.GET, url,);
     return QuestionModel.fromJson(response);
   }
+
+  Future<GeneralModel> quizResult(QuizResultModel quizResultModel) async{
+
+    var response = await _loadData(ReqType.POST,API.quizeResult, body: quizResultModel.toJson());
+    return GeneralModel.fromJson(response);
+  }
+  Future<MyQuizModel> getMyQuizzes() async {
+    var url = API.myQuizzes;
+    var response = await _loadData(ReqType.GET, url,);
+    return MyQuizModel.fromJson(response);
+  }
+  Future<CourseModel> getMyCourses() async {
+    var url = API.myCourses;
+    var response = await _loadData(ReqType.GET, url,);
+    return CourseModel.fromJson(response);
+  }
+
 }
 
 ApiProvider apiProvider = ApiProvider();

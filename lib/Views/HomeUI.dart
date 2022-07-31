@@ -8,6 +8,7 @@ import 'package:Courses/Helper/AppTextStyle.dart';
 import 'package:Courses/Views/BaseUI.dart';
 import 'package:Courses/Views/MyCourses.dart';
 import 'package:Courses/Views/MyProfile.dart';
+import 'package:Courses/Views/MyQuizzes.dart';
 import 'package:Courses/Views/Quizes.dart';
 import 'package:Courses/Views/SubHomeUI.dart';
 import 'package:flutter/cupertino.dart';
@@ -74,8 +75,7 @@ class HomeUIState extends BaseUIState<HomeUI> {
   List<Widget> _buildScreens() {
     List<Widget> temp = [
       SubHomeUI(),
-      Quizes(),
-      MyProfile(),
+      MyQuizzes(),
       MyCourses(subjectID: "1"),
       Quizes(),
     ];
@@ -98,14 +98,6 @@ class HomeUIState extends BaseUIState<HomeUI> {
         inactiveIcon:Icon(Icons.quiz,color: AppColors.black,),
         textStyle: AppTextStyle.smallBlack,
         title: 'My Quizzes',
-        activeColorPrimary: AppColors.primary,
-        inactiveColorPrimary: CupertinoColors.darkBackgroundGray,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.account_circle_sharp,color: AppColors.primary,),
-        inactiveIcon:Icon(Icons.account_circle_sharp,color: AppColors.black,),
-        textStyle: AppTextStyle.smallBlack,
-        title: 'My Profile',
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: CupertinoColors.darkBackgroundGray,
       ),

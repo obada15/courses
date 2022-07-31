@@ -1,4 +1,5 @@
 
+import 'package:Courses/Models/GeneralRespones.dart';
 import 'package:Courses/Models/LessonModel.dart';
 import 'package:Courses/Models/QuizModel.dart';
 import 'package:Courses/Resources/ApiProvider.dart';
@@ -17,6 +18,12 @@ class QuizBloc extends BaseBloc{
 
   PublishSubject<QuestionModel?> dataControllerQuestions = PublishSubject<QuestionModel?>();
   Stream<QuestionModel?> get dataStreamQuestions => dataControllerQuestions.stream;
+
+  PublishSubject<GeneralModel?> dataControllerQuizResult = PublishSubject<GeneralModel?>();
+  Stream<GeneralModel?> get dataStreamQuizResult => dataControllerQuizResult.stream;
+
+  PublishSubject<MyQuizModel?> dataControllerMyQuizzes = PublishSubject<MyQuizModel?>();
+  Stream<MyQuizModel?> get dataStreamMyQuizzes => dataControllerMyQuizzes.stream;
   getRequest({onData,onError}){
     apiProvider.getQuizzes().then((value) => {
       dataController.sink.add(value)
@@ -30,6 +37,28 @@ class QuizBloc extends BaseBloc{
   getQuestionsRequest(String id,{onData,onError}){
     apiProvider.getQuestions(id).then((value) => {
       dataControllerQuestions.sink.add(value)
+    }, onError:(error){
+      handleError(error);
+      if (onError != null){
+        onError(error);
+      }
+    });
+  }
+  quizResult(QuizResultModel quizResultModel,{onData,onError}){
+    apiProvider.quizResult(quizResultModel).then((value) => {
+      dataControllerQuizResult.sink.add(value),
+      onData(value)
+    }, onError:(error){
+      handleError(error);
+      if (onError != null){
+        onError(error);
+      }
+    });
+  }
+  getMyQuizRequest({onData,onError}){
+    apiProvider.getMyQuizzes().then((value) => {
+
+      dataControllerMyQuizzes.sink.add(value)
     }, onError:(error){
       handleError(error);
       if (onError != null){

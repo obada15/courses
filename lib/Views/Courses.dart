@@ -79,6 +79,7 @@ class _CoursesState extends BaseUIState<Courses> {
                         isFree: data!.courses![index].is_free==1?true:false,
                         courseID: data!.courses![index].id.toString(),
                         price: data!.courses![index].price.toString(),
+                        description: data!.courses![index].description.toString(),
 
                       ),
                     );

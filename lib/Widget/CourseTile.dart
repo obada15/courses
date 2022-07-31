@@ -2,13 +2,14 @@ import 'package:Courses/Views/LessonsUI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../views/VideoView.dart';
 
 class CourseTile extends StatelessWidget {
-  final String ?imageURL, title;
+  final String ?imageURL, title,description;
   final bool? isFree;
   final String courseID;
   final String price;
@@ -16,7 +17,7 @@ class CourseTile extends StatelessWidget {
   CourseTile(
       { required this.imageURL,
   required this.title,
-   required this.isFree,required this.courseID,required this.price});
+   required this.isFree,required this.courseID,required this.price,required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +31,10 @@ class CourseTile extends StatelessWidget {
         elevation: 8.0,
         child: InkWell(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LessonsUI(courseID:courseID ,
-                  //courseUrl: courseURL,
-                ),
-              ),
+            pushNewScreen(context, screen: LessonsUI(courseID:courseID ,description: description!,
+              //courseUrl: courseURL,
+            ),
+              withNavBar:false,
             );
           },
           // launch(snapshot.data[index].link),

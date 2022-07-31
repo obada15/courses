@@ -20,7 +20,7 @@ class GeneralModel {
 
   factory GeneralModel.fromJson(Map<String, dynamic> json) => GeneralModel(
     message: json["message"] == null ? null : json["message"],
-    data: json["data"],
+    data: json["data"]== null ? null : json["data"],
     errors: json["errors"] == null ? null : json["errors"],
     code: json["status_code"] == null ? -1 : json["status_code"],
   );

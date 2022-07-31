@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 import '../views/Courses.dart';
 
@@ -16,41 +17,46 @@ class SubjectTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Courses(
-                    subjectID: subjectID!,
-                  )),
+        pushNewScreen(context, screen:Courses(
+          subjectID: subjectID!,
+        ),
+          withNavBar:false,
         );
       },
-      child: Container(
-        alignment: Alignment.center,
-        height: 157,
-        width: 128,
-        decoration: BoxDecoration(
-          color: AppColors.primary,
-            borderRadius: BorderRadius.circular(16)),
-        margin: EdgeInsets.only(right: 14),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          //  SvgPicture.network(imageURL!),
-            CachedNetworkImage(
-              placeholder:  (context, url) =>
-                  Center(
-                    child: CircularProgressIndicator(),
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            height: 140,
+            width: 128,
+            decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(8)),
+            margin: EdgeInsets.only(right: 14),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: CachedNetworkImage(
+                    height: 140,
+                    placeholder:  (context, url) =>
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                    errorWidget:(context, url,dynamic) =>
+                        SvgPicture.asset("assets/web.svg"),
+                    imageUrl: imageURL!,
+                    fit: BoxFit.fill,
                   ),
-              errorWidget:(context, url,dynamic) =>
-                  SvgPicture.asset("assets/web.svg"),
-              imageUrl: imageURL!,
-              fit: BoxFit.fill,
-            ),
+                )
 
-            SizedBox(height: 14,),
-            Text(subjectName!,style: GoogleFonts.poppins(color: Colors.white,fontSize: 16),),
-          ],
-        ),
+              ],
+            ),
+          ),
+          //   SizedBox(height: 14,),
+          Text(subjectName!,style: GoogleFonts.poppins(color: Colors.black,fontSize: 16),),
+        ],
       ),
     );
   }

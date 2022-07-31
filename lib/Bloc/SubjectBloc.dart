@@ -16,6 +16,9 @@ class SubjectBloc extends BaseBloc{
 
   PublishSubject<CourseModel?> dataCoursesController = PublishSubject<CourseModel?>();
   Stream<CourseModel?> get dataCoursesStream => dataCoursesController.stream;
+
+  PublishSubject<CourseModel?> dataMyCoursesController = PublishSubject<CourseModel?>();
+  Stream<CourseModel?> get dataMyCoursesStream => dataMyCoursesController.stream;
   getRequest({onData,onError}){
 
     apiProvider.getSubjects().then((value) => {
@@ -38,11 +41,10 @@ class SubjectBloc extends BaseBloc{
       }
     });
   }
-/*
-  postRequest(eventDateId,email,phone,keyNumber,{onData,onError}){
-    apiProvider.createTicket(eventDateId,email,phone,keyNumber).then((value) => {
-      createdDataController.sink.add(value),
-      onData(value)
+
+  getMyCoursesRequest({onData,onError}){
+    apiProvider.getMyCourses().then((value) => {
+      dataMyCoursesController.sink.add(value)
     }, onError:(error){
       handleError(error);
       if (onError != null){
@@ -50,42 +52,5 @@ class SubjectBloc extends BaseBloc{
       }
     });
   }
-  updateRequestNew(eventDateId,email,phone,keyNumber,model,colorID,{onData,onError}){
-    apiProvider.updateTicketNew(eventDateId,email,phone,keyNumber,model,colorID).then((value) => {
-     // createdDataController.sink.add(value),
-    print("eeeeeeeeeeeeee "),
-      if(value.code!=200)
-    showErrorDialog(genBloc.navigatorKey.currentContext,value.message),
 
-        onData(value)
-    }, onError:(error){
-
-      showErrorDialog(genBloc.navigatorKey.currentContext,error is AppMsg ? error.data.toString() :  error.toString());
-      if (onError != null){
-        onError(error);
-      }
-    });
-  }
-  getRequest(id,{onData,onError}){
-
-    apiProvider.getTickets(id).then((value) => {
-      dataController.sink.add(value)
-    }, onError:(error){
-      handleError(error);
-      if (onError != null){
-        onError(error);
-      }
-    });
-  }
-  getRequestDetails(id,{onData,onError}){
-    apiProvider.getTicketDetails(id).then((value) => {
-      dataDetailsController.sink.add(value)
-    }, onError:(error){
-      handleError(error);
-      if (onError != null){
-        onError(error);
-      }
-    });
-  }
-*/
 }

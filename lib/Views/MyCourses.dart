@@ -55,7 +55,7 @@ class _MyCoursesState extends BaseUIState<MyCourses> {
   Widget bodyUI() {
     return StreamBuilder<CourseModel?>(
       //favorite api stream
-        stream: widget.bloc!.dataCoursesController,
+        stream: widget.bloc!.dataMyCoursesController,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == null || snapshot.data!.courses!.isEmpty) {
@@ -79,6 +79,7 @@ class _MyCoursesState extends BaseUIState<MyCourses> {
                         isFree: data!.courses![index].is_free==1?true:false,
                         courseID: data!.courses![index].id.toString(),
                         price: data!.courses![index].price.toString(),
+                        description: data!.courses![index].description.toString(),
 
                       ),
                     );
@@ -97,8 +98,8 @@ class _MyCoursesState extends BaseUIState<MyCourses> {
   @override
   void retry() {
     super.retry();
-    widget.bloc!.dataController.sink.add(null);
-    widget.bloc!.getCoursesRequest(widget.subjectID);
+    widget.bloc!.dataMyCoursesController.sink.add(null);
+    widget.bloc!.getMyCoursesRequest();
   }
   @override
   void init() {
