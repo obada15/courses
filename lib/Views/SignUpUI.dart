@@ -46,7 +46,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
   bool  _isLoading = false;
   @override
   AppBar buildAppBar() {
-    return helper.mainAppBar(context, scaffoldKey,"Sign Up");
+    return helper.mainAppBar(context, scaffoldKey,"Sign Up",nameUI: "Sign Up");
   }
 
   @override
