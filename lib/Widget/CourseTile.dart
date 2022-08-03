@@ -1,4 +1,7 @@
+import 'package:Courses/Bloc/SubjectBloc.dart';
 import 'package:Courses/Views/LessonsUI.dart';
+import 'package:Courses/Widget/AppDialogs.dart';
+import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,11 +16,16 @@ class CourseTile extends StatelessWidget {
   final bool? isFree;
   final String courseID;
   final String price;
+  final Function function;
+  final int is_mine;
+  final SubjectBloc bloc;
 
   CourseTile(
       { required this.imageURL,
   required this.title,
-   required this.isFree,required this.courseID,required this.price,required this.description});
+   required this.isFree,required this.courseID,
+        required this.price,required this.description,
+        required this.function,required this.is_mine,required this.bloc});
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +38,49 @@ class CourseTile extends StatelessWidget {
         ),
         elevation: 8.0,
         child: InkWell(
-          onTap: () {
-            pushNewScreen(context, screen: LessonsUI(courseID:courseID ,description: description!,
-              //courseUrl: courseURL,
-            ),
-              withNavBar:false,
-            );
+          onTap: () async {
+            print("HHHHHHHHH " +is_mine.toString());
+            if(is_mine==1){
+              var back=await pushNewScreen(context, screen: LessonsUI(courseID:courseID ,description: description!,
+                //courseUrl: courseURL,
+              ),
+                withNavBar:false,
+              );
+              if(back!=null){
+                print("GHHHHHHHHH");
+                function();
+              }
+            }else{
+              displayTextInputDialog(context,
+                  "This course is not available to you, if you want it, you have to buy its code",
+                  "Insert your code",onOk: (code){
+                     print(code);
+                     print(courseID);
+                    bloc!.InsertCode(code: code,
+                        onError: (val){
+
+                        },
+                        onData: (val) async {
+                          print("VVVVVVVV");
+                          print(val);
+                          if(val.code == 200)
+                          {
+                            var back=await pushNewScreen(context, screen: LessonsUI(courseID:courseID ,description: description!,
+                              //courseUrl: courseURL,
+                            ),
+                              withNavBar:false,
+                            );
+                            if(back!=null){
+                              print("GHHHHHHHHH");
+                              function();
+                            }
+                          }
+                          else showErrorDialog(context, val.message??'');
+                        }
+                    );
+                  });
+            }
+
           },
           // launch(snapshot.data[index].link),
           child: Stack(alignment: Alignment.bottomLeft, children: [

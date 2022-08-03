@@ -10,6 +10,7 @@ import 'package:Courses/Widget/CourseTile.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import '../Helper/AppTextStyle.dart';
 import 'dart:math' as math;
 
@@ -101,16 +102,17 @@ class _LessonsUIState extends BaseUIState<LessonsUI> with SingleTickerProviderSt
                           Text(lessons[i].videos![j].title!,style: AppTextStyle.mediumBlackBold,),
                         ],
                       ),
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VideoView(
-                              videoUrl: lessons[i].videos![j].link!,
-                              description:lessons[i].videos![j].link! ,
-                            ),
-                          ),
+                      onTap: () async {
+                        var back=await pushNewScreen(context, screen: VideoView(
+                          videoUrl: lessons[i].videos![j].link!,
+                          description:lessons[i].videos![j].link! ,
+                        ),
+                          withNavBar:false,
                         );
+                        if(back!=null){
+                          retry();
+                        }
+
                       },
                     )
                 ),);

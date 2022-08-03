@@ -155,7 +155,7 @@ class HelperWidgets {
 
         leading: Transform(
           transform: Matrix4.translationValues(8, 0, 0.0),
-          child: ModalRoute.of(context)?.canPop == true
+          child: ModalRoute.of(context)?.canPop == true&&nameUI!.compareTo("Quiz Result")!=0
               ? IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios,
@@ -164,7 +164,7 @@ class HelperWidgets {
                   ),
 
               onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(1);
           },
                 )
                   : null,

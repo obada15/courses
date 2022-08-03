@@ -9,19 +9,24 @@ import '../views/Courses.dart';
 
 class SubjectTile extends StatelessWidget {
   final String ?imageURL, subjectName,subjectID;
+  final Function function;
 
 
-  SubjectTile({required this.imageURL, required this.subjectName,required this.subjectID});
+  SubjectTile({required this.imageURL, required this.subjectName,required this.subjectID,required this.function});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        pushNewScreen(context, screen:Courses(
+      onTap: () async {
+      var back=await  pushNewScreen(context, screen:Courses(
           subjectID: subjectID!,
         ),
           withNavBar:false,
         );
+        if(back!=null){
+          print("GHHHHHHHHH");
+          function();
+        }
       },
       child: Column(
         children: [

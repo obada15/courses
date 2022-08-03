@@ -100,7 +100,7 @@ Future<void> displayTextInputDialog(BuildContext context,String title,String pla
               elevation: 0,
               color: AppColors.white,
               onTap: (){
-                onCancel(_textFieldController.text);
+               // onCancel(_textFieldController.text);
                 Navigator.of(context).pop(true);
               },
               child: Text("cancel",style: AppTextStyle.normalBlackBold.copyWith(
@@ -121,6 +121,8 @@ Future<void> displayTextInputDialog(BuildContext context,String title,String pla
                   color:  AppColors.black
               ),),
             ),
+            SizedBox(width: 10,),
+
           ],
         );
       });

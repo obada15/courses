@@ -52,5 +52,15 @@ class SubjectBloc extends BaseBloc{
       }
     });
   }
+  InsertCode({required String code ,onData,onError}) {
+
+    apiProvider.InsertCode(code).then((value) {
+      onData(value);
+    }, onError:(error){
+      if (onError != null){
+        onError(error);
+      }
+    });
+  }
 
 }

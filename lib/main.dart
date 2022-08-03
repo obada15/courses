@@ -5,6 +5,7 @@ import 'package:Courses/Views/HomeUI.dart';
 import 'package:Courses/Views/SplashUI.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +24,9 @@ main () async {
   if(Platform.isAndroid)
   await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 
-  runApp(MyApp());
+  runApp(Phoenix(child: MyApp(),
+    
+  ));
 }
 
 

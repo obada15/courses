@@ -67,6 +67,9 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                               imageURL:  data!.subjects![index].image,
                               subjectName:  data!.subjects![index].title,
                               subjectID:data!.subjects![index].id.toString() ,
+                              function: (){
+                                retry();
+                              },
                             );
                           }),
                     ),
@@ -95,7 +98,11 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                               courseID: data!.courses![index].id.toString(),
                               price: data!.courses![index].price.toString(),
                               description: data!.courses![index].description.toString(),
-
+                              function: (){
+                                retry();
+                              },
+                              is_mine:data!.courses![index].is_mine! ,
+                              bloc: widget.bloc!,
                             );
                           }),
                     ),
@@ -124,7 +131,11 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                               courseID: data!.freeCourses![index].id.toString(),
                               price: data!.freeCourses![index].price.toString(),
                               description: data!.freeCourses![index].description.toString(),
-
+                              function: (){
+                                retry();
+                              },
+                              is_mine:1 ,
+                              bloc: widget.bloc!,
                             );
                           }),
                     ),

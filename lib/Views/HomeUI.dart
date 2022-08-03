@@ -49,7 +49,7 @@ class HomeUIState extends BaseUIState<HomeUI> {
           items: _navBarsItems(),
           navBarStyle: NavBarStyle.style8,
           navBarHeight: 80,
-          padding: NavBarPadding.only(bottom: 25),
+          padding: NavBarPadding.only(bottom: 10),
           /*onItemSelected: (index) async{
             setState(() {
               controller.index = index; // THIS IS CRITICAL!! Don't miss it!
@@ -94,16 +94,16 @@ class HomeUIState extends BaseUIState<HomeUI> {
         inactiveColorPrimary: CupertinoColors.darkBackgroundGray,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.quiz,color: AppColors.primary,),
-        inactiveIcon:Icon(Icons.quiz,color: AppColors.black,),
+        icon: Image.asset("assets/ideas.png",color: AppColors.primary,),
+        inactiveIcon:Image.asset("assets/ideas.png",color: AppColors.black,),
         textStyle: AppTextStyle.smallBlack,
         title: 'My Quizzes',
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: CupertinoColors.darkBackgroundGray,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.event_available_outlined,color: AppColors.primary,),
-        inactiveIcon:Icon(Icons.event_available_outlined,color: AppColors.black,),
+        icon: Image.asset("assets/ebook.png",color: AppColors.primary,),
+        inactiveIcon:Image.asset("assets/ebook.png",color: AppColors.black,),
         textStyle: AppTextStyle.smallBlack,
         title: 'My Courses',
         activeColorPrimary: AppColors.primary,
@@ -111,8 +111,8 @@ class HomeUIState extends BaseUIState<HomeUI> {
       ),
 
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.quiz,color: AppColors.primary,),
-        inactiveIcon:Icon(Icons.quiz,color: AppColors.black,),
+        icon: Image.asset("assets/quizicon.png",color: AppColors.primary,),
+        inactiveIcon:Image.asset("assets/quizicon.png",color: AppColors.black,),
         textStyle: AppTextStyle.smallBlack,
         title: 'Quizzes',
         activeColorPrimary: AppColors.primary,

@@ -29,33 +29,26 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
   List<AnswerModel>answersList=[];
   late QuizResultModel quizResultModel;
   bool  _isLoading = false;
+  late double totalMark;
 
   @override
   void initState() {
-
+  totalMark=widget.totalMark;
     for(int i=0;i<widget.answers.length;i++)
       {
         answersList.add(AnswerModel(widget.answers[i].questionID, widget.answers[i].textAnswer));
       }
+  for(int i=0;i<widget.answers.length;i++)
+    {
+      print("FFFFFFFFF "+widget.answers[i].textAnswer);
+    }
 
-
-     quizResultModel=new QuizResultModel(mark: widget.totalMark,execution_time: widget.executionQuizTime,
+    quizResultModel=new QuizResultModel(mark: totalMark,execution_time: widget.executionQuizTime,
         quize_id: widget.quizID,answers_arr: answersList);
 
     super.initState();
   }
 
-  Widget quizResultInfo() {
-    return Column(
-      children: [
-        Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-        Text(
-          widget.totalMark.toString() +" from "+widget.quizMark.toString(),
-          style: Theme.of(context).textTheme.headline4,
-        ),
-      ],
-    );
-  }
 
   @override
   AppBar buildAppBar() {
@@ -103,7 +96,27 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
                 style: TextStyle(fontSize: 25.0,color: AppColors.primary,fontWeight: FontWeight.bold),
               ),
             ],),
+          Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Your Mark: "+totalMark.toString(),
+                style: TextStyle(fontSize: 25.0,color: AppColors.primary,fontWeight: FontWeight.bold),
+              ),
+            ],),
         Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+        Padding(padding: EdgeInsets.all(5),child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              ":الاجابات الصحيحة",
+              style: TextStyle(fontSize: 20.0,color: AppColors.black,fontWeight: FontWeight.bold),
+            ),
+          ],),),
+          
         //  Expanded(child: quizResultInfo(),flex: 1,),
           Expanded(child: Container(
               alignment: Alignment.topCenter,
@@ -115,6 +128,8 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
                   children: widget.data!.questions!
                       .map((x){
                        int index=0;
+                       int indexAnswer=0;
+                       bool isExist=false;
                         for(int i=0;i<x.questionSelections!.length;i++)
                           {
                             if(x.questionSelections![i].is_true==1)
@@ -122,15 +137,23 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
                                 index=i;
                               }
                           }
+                       for(int i=0;i<widget.data!.questions!.length;i++)
+                       {
+                         if(widget.data!.questions![i].type!.compareTo("written")==0&&x.id==widget.data!.questions![i].id)
+                         {
+                           indexAnswer=i;
+                         }
+                       }
+
                         return ListTile(
-                          title: helper.mainTextView(texts: [x.text!],textsStyle: [AppTextStyle.largeBlackBold],textAlign: TextAlign.end),
+                          title:Text(x.text!,style: AppTextStyle.largeBlackBold,textAlign: TextAlign.end),
                           subtitle: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              helper.mainTextView(texts: [x.questionSelections!.length!=0?x.questionSelections![index].text!:""],textsStyle: [AppTextStyle.normalGray]),
+                              Text(x.questionSelections!.length!=0?x.questionSelections![index].text!:"",style: AppTextStyle.normalGray,textAlign: TextAlign.end),
                               Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                               x.type!.compareTo("selection")!=0?
+                               x.type!.compareTo("selection")!=0&&widget.answers[indexAnswer].isTrue==0?
                               Center(child: Container(
                                 width: MediaQuery.of(context).size.width * 0.7,
                                 child: CustomAppButton(
@@ -139,6 +162,11 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
                                   borderRadius: 6,
                                   color: AppColors.primary,
                                   onTap: () {
+                                    setState(() {
+                                      totalMark=totalMark+x.mark!;
+                                      widget.answers[indexAnswer].isTrue=1;
+                                      print(indexAnswer.toString()+"GGGGGGGGGGGG");
+                                    });
 
                                   },
                                   elevation: 1,

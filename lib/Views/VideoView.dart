@@ -132,7 +132,7 @@ class _VideoViewState extends BaseUIState<VideoView> {
                 ),
 
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(1);
                 },
               )
                   : null,

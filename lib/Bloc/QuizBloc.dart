@@ -60,6 +60,8 @@ class QuizBloc extends BaseBloc{
 
       dataControllerMyQuizzes.sink.add(value)
     }, onError:(error){
+      print("IIIIIIIIII");
+      print(error.toString());
       handleError(error);
       if (onError != null){
         onError(error);

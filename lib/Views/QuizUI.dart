@@ -11,6 +11,7 @@ import 'package:Courses/Widget/CourseTile.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:Courses/Widget/DiscoButton.dart';
 import 'package:Courses/Widget/QuestionOption.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -57,17 +58,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
 
   @override
   Widget buildUI(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constrains) {
-        return Column(
-          children: [
-
-            Expanded(child: bodyUI()),
-
-          ],
-        );
-      },
-    );
+    return  bodyUI();
   }
   @override
   Widget bodyUI() {
@@ -94,7 +85,8 @@ class _QuizUIState extends BaseUIState<QuizUI> {
                 enter=true;
               }
 
-            return  Container(
+            return  SingleChildScrollView(child: Container(
+              height: MediaQuery.of(context).size.height,
               alignment: Alignment.center,
               color: AppColors.background,
               padding: EdgeInsets.all(10),
@@ -102,15 +94,16 @@ class _QuizUIState extends BaseUIState<QuizUI> {
               child: Column(
                 children: [
 
-                  Expanded(child: quizQuestion(data!.questions![questionIndex]),flex: 2,),
-                  data!.questions![questionIndex].type!.compareTo("selection")==0?  Expanded(child: questionOptions(data!.questions![questionIndex]),flex: 4,):
-                  Expanded(child: Container(
+                  quizQuestion(data!.questions![questionIndex]),
+                  data!.questions![questionIndex].type!.compareTo("selection")==0?  questionOptions(data!.questions![questionIndex]):
+                  Container(
+                      height: MediaQuery.of(context).size.height/4,
                       alignment: Alignment.center,
                       decoration: ThemeConstant.roundBoxDeco(),
                       child: helper.getTextField(answerController, false, answer, answer,"Answer",inputType:
                       TextInputType.multiline,maxLines: 10,minLines: 10,)
-                  ),flex: 4,),
-                  Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 40)),
                   CustomTimer(
                     controller: _controllerTime,
                     from: Duration(seconds: 1),
@@ -145,10 +138,10 @@ class _QuizUIState extends BaseUIState<QuizUI> {
 
 
                   ),
-                  Expanded(child: footerButton(),flex: 1,),
+                  footerButton()
                 ],
               ),
-            );
+            ),);
           }
           return Center(
             child: CircularProgressIndicator(),
@@ -158,12 +151,41 @@ class _QuizUIState extends BaseUIState<QuizUI> {
   }
   Widget quizQuestion(QuestionM question) {
     return Container(
-      alignment: Alignment.centerLeft,
-      padding: EdgeInsets.all(20),
+      alignment: Alignment.center,
+      height:question.type!.compareTo("written")==0?MediaQuery.of(context).size.height/2.8:MediaQuery.of(context).size.height/4,
+      padding: EdgeInsets.all(10),
       margin: EdgeInsets.only(bottom: 10),
       decoration: ThemeConstant.roundBoxDeco(),
-      child: Text(
+      child:question.image!=null? SingleChildScrollView(child: Column(
+        children: [
+          Container(
+            child: CachedNetworkImage(
+              placeholder:  (context, url) =>
+                  Center(
+                    child: CircularProgressIndicator(),
+                  ),
+              errorWidget:(context, url,dynamic) =>
+                  CachedNetworkImage(
+                    imageUrl: "https://d3f1iyfxxz8i1e.cloudfront.net/courses/course_image/ca6212b7032c.png",
+                    fit: BoxFit.fill,
+                  ) ,
+              imageUrl: question.image!,
+              fit: BoxFit.fill,
+            ),
+            height: 200,
+            //width: MediaQuery.of(context).size.width,
+          ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+          Text(
+            question?.text ?? "",
+            textAlign: TextAlign.end,
+
+            style: Theme.of(context).textTheme.headline5,
+          ),
+        ],
+      ),):Text(
         question?.text ?? "",
+        textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.headline5,
       ),
     );
@@ -172,6 +194,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
   Widget questionOptions(QuestionM question) {
     return Container(
       alignment: Alignment.center,
+      height: MediaQuery.of(context).size.height/2.8,
       decoration: ThemeConstant.roundBoxDeco(),
       child: Column(
         children: List<QuestionSelectionsM>.from(question?.questionSelections ?? []).map((e) {
@@ -282,7 +305,29 @@ class _QuizUIState extends BaseUIState<QuizUI> {
   void next() {
     if(questionIndex+1==maxQuestionCount)
       {
-        Fluttertoast.showToast(msg: "My total mark is : "+totalMarks.toString());
+        if(data!.questions![questionIndex].type!.compareTo("written")==0) {
+          answers.add(QuestionAnswer(
+              int.parse(widget.quizID), data!.questions![questionIndex].id!, "",
+              answerController.text,
+              0));
+        }
+        else{
+          bool isExist=false;
+          for(int i=0;i<answers.length;i++)
+          {
+            if(answers[i].questionID==data!.questions![questionIndex].id!)
+            {
+              isExist=true;
+            }
+          }
+          if(!isExist)
+          {
+            answers.add(QuestionAnswer(int.parse(widget.quizID), data!.questions![questionIndex].id!,"",answerController.text,
+                0));
+          }
+
+        }
+        answerController.text="";
         _controllerTime.pause();
         Navigator.pushReplacement(
           context,
@@ -292,6 +337,27 @@ class _QuizUIState extends BaseUIState<QuizUI> {
         );
       }
     else{
+      if(data!.questions![questionIndex].type!.compareTo("written")==0)
+        {
+          answers.add(QuestionAnswer(int.parse(widget.quizID), data!.questions![questionIndex].id!,"",answerController.text,
+             0));
+          answerController.text="";
+        }else{
+        bool isExist=false;
+        for(int i=0;i<answers.length;i++)
+          {
+            if(answers[i].questionID==data!.questions![questionIndex].id!)
+              {
+                isExist=true;
+              }
+          }
+        if(!isExist)
+          {
+            answers.add(QuestionAnswer(int.parse(widget.quizID), data!.questions![questionIndex].id!,"",answerController.text,
+                0));
+          }
+
+      }
       setState(() {
         if(questionIndex!=(maxQuestionCount-1))
           questionIndex++;

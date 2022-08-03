@@ -60,6 +60,10 @@ class _MyQuizzesState extends BaseUIState<MyQuizzes> {
         stream: widget.bloc!.dataControllerMyQuizzes,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            if(snapshot.data!.code==401)
+              {
+                print("NOOOOOOOO");
+              }
             if (snapshot.data == null || snapshot.data!.quizzes!.isEmpty) {
               return helper.noDataFound(
                   context, "no data found" + "\n" + "pls try again");

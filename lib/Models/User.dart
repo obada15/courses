@@ -34,17 +34,17 @@ class UserModel {
 
 class Data {
   Data({
-    this.token,
+    this.api_token,
   });
 
-  String? token;
+  String? api_token;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    token: json["api_token"] == null ? null : json["api_token"],
+    api_token: json["api_token"] == null ? null : json["api_token"],
   );
 
   Map<String, dynamic> toJson() => {
-    "token": token == null ? null : token,
+    "api_token": api_token == null ? null : api_token,
   };
 }
 

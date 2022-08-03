@@ -80,7 +80,11 @@ class _MyCoursesState extends BaseUIState<MyCourses> {
                         courseID: data!.courses![index].id.toString(),
                         price: data!.courses![index].price.toString(),
                         description: data!.courses![index].description.toString(),
-
+                        function: (){
+                          retry();
+                        },
+                        is_mine:data!.courses![index].is_mine! ,
+                        bloc: widget.bloc!,
                       ),
                     );
                   },

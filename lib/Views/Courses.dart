@@ -80,7 +80,11 @@ class _CoursesState extends BaseUIState<Courses> {
                         courseID: data!.courses![index].id.toString(),
                         price: data!.courses![index].price.toString(),
                         description: data!.courses![index].description.toString(),
-
+                        function: (){
+                          retry();
+                        },
+                        is_mine:data!.courses![index].is_mine! ,
+                        bloc: widget.bloc!,
                       ),
                     );
                   },
@@ -98,7 +102,7 @@ class _CoursesState extends BaseUIState<Courses> {
   @override
   void retry() {
     super.retry();
-    widget.bloc!.dataController.sink.add(null);
+    widget.bloc!.dataCoursesController.sink.add(null);
     widget.bloc!.getCoursesRequest(widget.subjectID);
   }
   @override

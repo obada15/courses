@@ -73,10 +73,9 @@ class _SplashUIState extends BaseUIState<SplashUI> {
   }
 
   void newRoot(){
-
-      if ((dataStore?.user?.data?.token?? "").isEmpty){
+      if ((dataStore?.user?.data?.api_token?? "").isEmpty){
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-            builder: (context) => HomeUI()
+            builder: (context) => SignInIU()
         ),(route){
           return false;
         });

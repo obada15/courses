@@ -21,7 +21,7 @@ class ApiProvider{
   Map<String, String> getHeader({var isAuth = true}){
     return {
       "Accept": "application/json",
-      "Authorization": (dataStore.user == null || !isAuth) ? '' :"Bearer 1|9NBggXHPNtsSvrbjTwm4pMgjNzBgQyoVTdZoSPMo"/*+ (dataStore?.user?.data?.token?? "")*/
+      "Authorization": (dataStore.user == null || !isAuth) ? '' :"Bearer "+ (dataStore?.user?.data?.api_token?? "")
     };
   }
   Map<String, String> getSignUpHeader(){
@@ -84,16 +84,16 @@ class ApiProvider{
     apiTacking(url: url,method: type,body: body,response: responseBody,header: customHeader,queryParameters: queryParameters,status: response.statusCode);
 
       if(response.statusCode >=200 && response.statusCode <500){
-      if(responseBody["status_code"] == -401) {
-        throw AppMsg(code: 401, data: "notAuth");
+      if(response.statusCode == 401) {
+        throw AppMsg(code: 401 , data: responseBody["message"] ?? "notAuth");
       }else{
         return responseBody;
       }
     }
-    else if(response.statusCode == 401)
+    /*else if(response.statusCode == 401)
     {
       throw AppMsg(code: 401 , data: responseBody["message"] ?? "notAuth");
-    }
+    }*/
     var genBloc = GeneralModel.fromJson(responseBody);
 
     if (genBloc is GeneralModel){
@@ -268,7 +268,7 @@ class ApiProvider{
       "mobile_number": phone,
       "password": password,
     };
-    var response = await _loadData(ReqType.POST,API.login, body: body);
+    var response = await _loadData(ReqType.DIO,API.login, body: body);
     return UserModel.fromJson(response);
   }
   Future<SubjectModel> getSubjects() async {
@@ -312,6 +312,15 @@ class ApiProvider{
     var response = await _loadData(ReqType.GET, url,);
     return CourseModel.fromJson(response);
   }
+  Future<GeneralModel> InsertCode(String code) async{
+
+    Map<String,dynamic> body = {
+      "code": code,
+    };
+    var response = await _loadData(ReqType.DIO,API.insertCode, body: body);
+    return GeneralModel.fromJson(response);
+  }
+
 
 }
 

@@ -16,5 +16,6 @@ class API{
   static String quizeResult = '${baseUrl}quize-result';
   static String myQuizzes = '${baseUrl}my-quizzes';
   static String myCourses = '${baseUrl}my-cources';
+  static String insertCode = '${baseUrl}insert-code';
 
 }
