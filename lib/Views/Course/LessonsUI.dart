@@ -1,17 +1,18 @@
 
 import 'package:Courses/Bloc/LessonBloc.dart';
-import 'package:Courses/Bloc/SubjectBloc.dart';
+
 import 'package:Courses/Helper/AppColors.dart';
 import 'package:Courses/Helper/ThemeConstant.dart';
+import 'package:Courses/Helper/Utils.dart';
 import 'package:Courses/Models/LessonModel.dart';
 import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/VideoView.dart';
+import 'package:Courses/Views/Course/VideoView.dart';
 import 'package:Courses/Widget/CourseTile.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import '../Helper/AppTextStyle.dart';
+import '../../Helper/AppTextStyle.dart';
 import 'dart:math' as math;
 
 class LessonsUI extends BaseUI<LessonBloc> {
@@ -42,7 +43,7 @@ class _LessonsUIState extends BaseUIState<LessonsUI> with SingleTickerProviderSt
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "Lessons",
+        "الدروس",
         nameUI: "Lessons",
     );
   }
@@ -58,7 +59,7 @@ class _LessonsUIState extends BaseUIState<LessonsUI> with SingleTickerProviderSt
         labelStyle: TextStyle(fontWeight: FontWeight.w800),
         tabs: [
           Tab(
-            text: "المناهج",
+            text: "الدروس",
           ),
           Tab(
             text: "الوصف",
@@ -75,16 +76,16 @@ class _LessonsUIState extends BaseUIState<LessonsUI> with SingleTickerProviderSt
         stream: widget.bloc!.dataController,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data == null || snapshot.data!.lessons!.isEmpty) {
+            if (snapshot.data == null ) {
               return helper.noDataFound(
-                  context, "no data found" + "\n" + "pls try again");
+                  context, "لا يوجد معلومات" + "\n" + "نرجوا المحاولة مرة اخرى");
             }
             LessonModel? data= snapshot.data;
             lessons.clear();
             cardsLessons.clear();
             for(int i=0;i<data!.lessons!.length;i++)
               {
-                lessons.add(new LessonWidget(data.lessons![i].title!,data.lessons![i].videos));
+                lessons.add(new LessonWidget(data.lessons![i].title!,data.lessons![i].videos,data.lessons![i].description!));
               }
 
             for(int i=0;i<lessons.length;i++)
@@ -96,16 +97,18 @@ class _LessonsUIState extends BaseUIState<LessonsUI> with SingleTickerProviderSt
                     padding: const EdgeInsets.all(10.0),
                     child: InkWell(
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Icon(Icons.play_circle_fill,color: AppColors.primary,),
-                          SizedBox(width: 10,),
                           Text(lessons[i].videos![j].title!,style: AppTextStyle.mediumBlackBold,),
+                          SizedBox(width: 10,),
+                          Icon(Icons.play_circle_fill,color: AppColors.primary,),
                         ],
                       ),
                       onTap: () async {
                         var back=await pushNewScreen(context, screen: VideoView(
-                          videoUrl: lessons[i].videos![j].link!,
-                          description:lessons[i].videos![j].link! ,
+                          videoUrl: Utils.testInput(lessons[i].videos![j].link!),
+                          description:lessons[i].description,
                         ),
                           withNavBar:false,
                         );
@@ -132,7 +135,7 @@ class _LessonsUIState extends BaseUIState<LessonsUI> with SingleTickerProviderSt
                     decoration: ThemeConstant.roundBoxDeco(),
                     child:SingleChildScrollView(
                       child: Padding(child:
-                      Text("مرض كورو (بالإنجليزية: kuru)‏ مرض تدريجي في الجهاز العصبي المركزي الذي هو نوع من التهاب الدماغ الإسفنجي المعدي موجود في البشر يتسم بتزايد انعدام التناسق الحركي ويصل إلى حد الشلل والوفاة في غضون سنة من ظهور الأعراض، يعتقد أنه ينتقل عن طريق آكل لحوم البشر، خاصة عندما يأكلوا الدماغ، حيث أن جسيمات البريون تتركز بشكل خاص. المرض اختفى تقريبا عندما تم التخلي عن أكل لحوم البشر. كورو مرض غير قابل للشفاء ومن اضطرابات الجهاز العصبي. ومن المعروف عن هذا الوباء انه انتشر في بابوا غينيا الجديدة في منتصف القرن العشرين، ووقت سابق.مرض كورو (بالإنجليزية: kuru)‏ مرض تدريجي في الجهاز العصبي المركزي الذي هو نوع من التهاب الدماغ الإسفنجي المعدي موجود في البشر يتسم بتزايد انعدام التناسق الحركي ويصل إلى حد الشلل والوفاة في غضون سنة من ظهور الأعراض، يعتقد أنه ينتقل عن طريق آكل لحوم البشر، خاصة عندما يأكلوا الدماغ، حيث أن جسيمات البريون تتركز بشكل خاص. المرض اختفى تقريبا عندما تم التخلي عن أكل لحوم البشر. كورو مرض غير قابل للشفاء ومن اضطرابات الجهاز العصبي. ومن المعروف عن هذا الوباء انه انتشر في بابوا غينيا الجديدة في منتصف القرن العشرين، ووقت سابق.",
+                      Text(widget.description,
                         style: TextStyle(color: AppColors.primary,fontSize: 20,),textAlign: TextAlign.end,)
                         ,padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),),
                     )
@@ -195,25 +198,28 @@ class Card3 extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+
                           children: [
-                            ExpandableIcon(
-                              theme: const ExpandableThemeData(
-                                expandIcon: Icons.arrow_right,
-                                collapseIcon: Icons.arrow_drop_down,
-                                iconColor: Colors.white,
-                                iconSize: 28.0,
-                                iconRotationAngle: math.pi / 2,
-                                iconPadding: EdgeInsets.only(right: 5),
-                                hasIcon: false,
-                              ),
-                            ),
+
                             Expanded(
                               child: Text(
-                                title,
+                                title,textAlign: TextAlign.end,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
                                     .copyWith(color: Colors.white),
+                              ),
+                            ),
+                            ExpandableIcon(
+                              theme: const ExpandableThemeData(
+                                expandIcon: Icons.arrow_left,
+                                collapseIcon: Icons.arrow_drop_down,
+                                iconColor: Colors.white,
+                                iconSize: 28.0,
+                                iconRotationAngle: math.pi / 2,
+                                iconPadding: EdgeInsets.only(left: 5),
+                                hasIcon: false,
                               ),
                             ),
                           ],
@@ -232,6 +238,7 @@ class Card3 extends StatelessWidget {
 }
 class LessonWidget{
   late String title;
+  late String description;
   late List<VideoM>?videos;
-  LessonWidget(this.title,this.videos);
+  LessonWidget(this.title,this.videos,this.description);
 }

@@ -4,7 +4,7 @@ import 'package:Courses/Helper/AppTextStyle.dart';
 import 'package:Courses/Helper/ThemeConstant.dart';
 import 'package:Courses/Models/QuizModel.dart';
 import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/HomeUI.dart';
+import 'package:Courses/Views/Home/HomeUI.dart';
 import 'package:Courses/Widget/AppDialogs.dart';
 import 'package:Courses/Widget/CustomAppButton.dart';
 import 'package:Courses/Widget/DiscoButton.dart';
@@ -17,9 +17,10 @@ class ResultQuizUI extends BaseUI<QuizBloc>  {
   final double quizMark;
   final QuestionModel? data;
   final String? executionQuizTime;
+  final String? type;
   final int?quizID;
   final List<QuestionAnswer>answers;
-  ResultQuizUI(this.quizID,this.totalMark, this.quizMark,this.data,this.executionQuizTime,this.answers) : super(bloc: QuizBloc());
+  ResultQuizUI(this.quizID,this.totalMark, this.quizMark,this.data,this.executionQuizTime,this.answers,this.type) : super(bloc: QuizBloc());
 
   @override
   _QuizResultState createState() => _QuizResultState();
@@ -30,6 +31,7 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
   late QuizResultModel quizResultModel;
   bool  _isLoading = false;
   late double totalMark;
+  bool finish=false;
 
   @override
   void initState() {
@@ -43,8 +45,6 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
       print("FFFFFFFFF "+widget.answers[i].textAnswer);
     }
 
-    quizResultModel=new QuizResultModel(mark: totalMark,execution_time: widget.executionQuizTime,
-        quize_id: widget.quizID,answers_arr: answersList);
 
     super.initState();
   }
@@ -92,7 +92,7 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Solving Time: "+widget.executionQuizTime.toString(),
+                "الوقت الكلي للحل : "+widget.executionQuizTime.toString(),
                 style: TextStyle(fontSize: 25.0,color: AppColors.primary,fontWeight: FontWeight.bold),
               ),
             ],),
@@ -102,7 +102,7 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Your Mark: "+totalMark.toString(),
+                "العلامة كاملة : "+totalMark.toString(),
                 style: TextStyle(fontSize: 25.0,color: AppColors.primary,fontWeight: FontWeight.bold),
               ),
             ],),
@@ -155,10 +155,10 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
                               Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                                x.type!.compareTo("selection")!=0&&widget.answers[indexAnswer].isTrue==0?
                               Center(child: Container(
-                                width: MediaQuery.of(context).size.width * 0.7,
+                                width: MediaQuery.of(context).size.width * 0.6,
                                 child: CustomAppButton(
-                                  child: helper.mainTextView(texts: ["Yes, I answered like this"],textsStyle: [AppTextStyle.largeWhiteSemiBold],textAlign: TextAlign.center),
-                                  padding: EdgeInsets.symmetric(vertical: 13),
+                                  child: helper.mainTextView(texts: ["نعم ، أجبت بمثل ذلك"],textsStyle: [AppTextStyle.largeWhiteSemiBold],textAlign: TextAlign.center),
+                                  padding: EdgeInsets.symmetric(vertical: 10),
                                   borderRadius: 6,
                                   color: AppColors.primary,
                                   onTap: () {
@@ -188,42 +188,61 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
           Container(
             width: MediaQuery.of(context).size.width * 0.5,
             child: CustomAppButton(
-              child: helper.mainTextView(texts: ["Submit"],textsStyle: [AppTextStyle.largeWhiteSemiBold],textAlign: TextAlign.center),
-              padding: EdgeInsets.symmetric(vertical: 13),
+              child: helper.mainTextView(texts: [(widget.type!.compareTo("training")==0||finish)?"انهاء":"حفظ النتيجة"],textsStyle: [AppTextStyle.largeWhiteSemiBold],textAlign: TextAlign.center),
+              padding: EdgeInsets.symmetric(vertical: 10),
               borderRadius: 12,
               color: AppColors.primary,
               onTap: () {
+                if(widget.type!.compareTo("training")==0||finish)
+                  {
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                        builder: (context) => HomeUI()
+                    ),(route){
+                      return false;
+                    });
+                  }else{
 
-
-                setState(() {
-                  _isLoading = true;
-                });
-                widget.bloc!.quizResult(
-                    quizResultModel,
-                    onError: (val){
-                      print(val.toString());
-                      print("EEEEEEEEE");
-                      setState(() {
-                        _isLoading = false;
-                      });
-                    },
-                    onData: (val){
-                      setState(() {
-                        _isLoading = false;
-                      });
-                      print("VVVVVVVV");
-                      print(val);
-                      if(val.code == 200)
-                      {
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-                            builder: (context) => HomeUI()
-                        ),(route){
-                          return false;
+                  quizResultModel=new QuizResultModel(mark: totalMark,execution_time: widget.executionQuizTime,
+                      quize_id: widget.quizID,answers_arr: answersList);
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  widget.bloc!.quizResult(
+                      quizResultModel,
+                      onError: (val){
+                        print(val.toString());
+                        print("EEEEEEEEE");
+                        setState(() {
+                          _isLoading = false;
                         });
+                      },
+                      onData: (val){
+                        setState(() {
+                          _isLoading = false;
+                        });
+                        print("VVVVVVVV");
+                        print(val);
+                        if(val.code == 200)
+                        {
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                              builder: (context) => HomeUI()
+                          ),(route){
+                            return false;
+                          });
+                        }
+                        else if(val.code == 407){
+                          setState(() {
+                            finish=true;
+                          });
+                          showErrorDialog(context, val.message??'');
+                        }else{
+                          showErrorDialog(context, val.message??'');
+                        }
                       }
-                      else showErrorDialog(context, val.message??'');
-                    }
-                );
+                  );
+                }
+
+
 
 
               },

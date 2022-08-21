@@ -1,7 +1,9 @@
 
 
 class API{
-  static String baseUrl = 'https://backaloriacourses.000webhostapp.com/api/';
+  static String webUrl = 'https://testobadakh.000webhostapp.com/api/';
+  static String localUrl = 'http://192.168.1.9:8000/api/';
+  static String baseUrl = webUrl;
 
 
   static String signUp = '${baseUrl}signup';

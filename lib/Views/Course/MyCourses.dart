@@ -7,17 +7,16 @@ import 'package:Courses/Views/BaseUI.dart';
 import 'package:Courses/Widget/CourseTile.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class Courses extends BaseUI<SubjectBloc> {
+class MyCourses extends BaseUI<SubjectBloc> {
   final String subjectID;
   @override
-  _CoursesState createState() => _CoursesState();
-  Courses({required this.subjectID}) : super(bloc: SubjectBloc());
+  _MyCoursesState createState() => _MyCoursesState();
+  MyCourses({required this.subjectID}) : super(bloc: SubjectBloc());
 
 }
 
-class _CoursesState extends BaseUIState<Courses> {
+class _MyCoursesState extends BaseUIState<MyCourses> {
 
   @override
   void initState() {
@@ -31,8 +30,8 @@ class _CoursesState extends BaseUIState<Courses> {
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "Courses",
-        nameUI: "Courses"
+        "دوراتي",
+        nameUI: "My Courses"
     );
   }
 
@@ -55,12 +54,12 @@ class _CoursesState extends BaseUIState<Courses> {
   Widget bodyUI() {
     return StreamBuilder<CourseModel?>(
       //favorite api stream
-        stream: widget.bloc!.dataCoursesController,
+        stream: widget.bloc!.dataMyCoursesController,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == null || snapshot.data!.courses!.isEmpty) {
               return helper.noDataFound(
-                  context, "no data found" + "\n" + "pls try again");
+                  context, "لا يوجد معلومات" + "\n" + "نرجوا المحاولة مرة اخرى");
             }
             CourseModel? data= snapshot.data;
 
@@ -102,8 +101,8 @@ class _CoursesState extends BaseUIState<Courses> {
   @override
   void retry() {
     super.retry();
-    widget.bloc!.dataCoursesController.sink.add(null);
-    widget.bloc!.getCoursesRequest(widget.subjectID);
+    widget.bloc!.dataMyCoursesController.sink.add(null);
+    widget.bloc!.getMyCoursesRequest();
   }
   @override
   void init() {

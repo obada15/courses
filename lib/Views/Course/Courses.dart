@@ -7,17 +7,16 @@ import 'package:Courses/Views/BaseUI.dart';
 import 'package:Courses/Widget/CourseTile.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class MyCourses extends BaseUI<SubjectBloc> {
+class Courses extends BaseUI<SubjectBloc> {
   final String subjectID;
   @override
-  _MyCoursesState createState() => _MyCoursesState();
-  MyCourses({required this.subjectID}) : super(bloc: SubjectBloc());
+  _CoursesState createState() => _CoursesState();
+  Courses({required this.subjectID}) : super(bloc: SubjectBloc());
 
 }
 
-class _MyCoursesState extends BaseUIState<MyCourses> {
+class _CoursesState extends BaseUIState<Courses> {
 
   @override
   void initState() {
@@ -31,8 +30,8 @@ class _MyCoursesState extends BaseUIState<MyCourses> {
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "My Courses",
-        nameUI: "My Courses"
+        "Courses",
+        nameUI: "Courses"
     );
   }
 
@@ -55,12 +54,12 @@ class _MyCoursesState extends BaseUIState<MyCourses> {
   Widget bodyUI() {
     return StreamBuilder<CourseModel?>(
       //favorite api stream
-        stream: widget.bloc!.dataMyCoursesController,
+        stream: widget.bloc!.dataCoursesController,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == null || snapshot.data!.courses!.isEmpty) {
               return helper.noDataFound(
-                  context, "no data found" + "\n" + "pls try again");
+                  context, "لا يوجد معلومات" + "\n" + "نرجوا المحاولة مرة اخرى");
             }
             CourseModel? data= snapshot.data;
 
@@ -102,8 +101,8 @@ class _MyCoursesState extends BaseUIState<MyCourses> {
   @override
   void retry() {
     super.retry();
-    widget.bloc!.dataMyCoursesController.sink.add(null);
-    widget.bloc!.getMyCoursesRequest();
+    widget.bloc!.dataCoursesController.sink.add(null);
+    widget.bloc!.getCoursesRequest(widget.subjectID);
   }
   @override
   void init() {

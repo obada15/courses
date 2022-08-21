@@ -9,8 +9,9 @@ import 'package:Courses/Helper/AppColors.dart';
 import 'package:Courses/Helper/AppTextStyle.dart';
 import 'package:Courses/Helper/Utils.dart';
 import 'package:Courses/Models/User.dart';
+import 'package:Courses/Views/Auth/SignInUI.dart';
 import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/SubHomeUI.dart';
+import 'package:Courses/Views/Home/SubHomeUI.dart';
 import 'package:Courses/Widget/AppDialogs.dart';
 import 'package:Courses/Widget/CustomAppButton.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
@@ -46,7 +47,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
   bool  _isLoading = false;
   @override
   AppBar buildAppBar() {
-    return helper.mainAppBar(context, scaffoldKey,"Sign Up",nameUI: "Sign Up");
+    return helper.mainAppBar(context, scaffoldKey,"انشاء حساب",nameUI: "Sign Up");
   }
 
   @override
@@ -63,16 +64,6 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                /* SizedBox(
-                  height: MediaQuery.of(context).size.height *0.07,
-                ),
-               Container(
-                  // width: MediaQuery.of(context).size.height * 0.3 * 16/11,
-                  height: MediaQuery.of(context).size.height * 0.22 ,
-                  child: Image.asset(
-                    "logo.png".assets,
-                  ),
-                ),*/
                 SizedBox(
                   height: MediaQuery.of(context).size.height *0.02,
                 ),
@@ -81,31 +72,55 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: Column(
                     children: <Widget>[
-                      helper.getTextField(firstNameController, false, firstName, firstName,"first name",inputType:
-                      TextInputType.text),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: helper.getTextField(firstNameController, false, firstName, firstName,"الاسم",inputType:
+                        TextInputType.text),
+                      ),
+
                       SizedBox(
                         height: 8,
                       ),
-                      helper.getTextField(lastNameController, false, lastName, lastName,"last name",inputType:
-                      TextInputType.text),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child:  helper.getTextField(lastNameController, false, lastName, lastName,"الكنية",inputType:
+                        TextInputType.text),
+                      ),
+
                       SizedBox(
                         height: 8,
                       ),
-                      helper.getTextField(emailController, false, email, email,"email",inputType:
-                      TextInputType.emailAddress,pattern: Utils.getEmailPattern,errorMessage: "email validator"),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: helper.getTextField(emailController, false, email, email,"البريد الالكتروني",inputType:
+                        TextInputType.emailAddress,pattern: Utils.getEmailPattern,errorMessage: "email validator",),
+                      ),
+
                       SizedBox(
                         height: 8,
                       ),
-                      helper.getTextField(phoneController, false, phone, phone,"phone",inputType:
-                      TextInputType.phone,pattern: Utils.getNumberPattern,errorMessage: "phone validator"),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child:helper.getTextField(phoneController, false, phone, phone,"رقم الهاتف",inputType:
+                        TextInputType.phone,pattern: Utils.getNumberPattern,errorMessage: "phone validator",),
+                      ),
+
                       SizedBox(
                         height: 8,
                       ),
-                      helper.getTextField(passwordController, true, password, null,'password',isShowEye: true),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: helper.getTextField(passwordController, true, password, null,'كلمة السر',isShowEye: true),
+                      ),
+
                       SizedBox(
                         height: 8,
                       ),
-                      helper.getTextField(confirmPasswordController, true, confirmPassword, null,'Confirm Password',isShowEye: true ),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child:helper.getTextField(confirmPasswordController, true, confirmPassword, null,'تاكيد كلمة السر',isShowEye: true ),
+                      ),
+
                       SizedBox(
                         height: 20,
                       ),
@@ -117,7 +132,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                       Container(
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: CustomAppButton(
-                          child: helper.mainTextView(texts: ["Sign up"],textsStyle: [AppTextStyle.largeWhiteSemiBold],textAlign: TextAlign.center),
+                          child: helper.mainTextView(texts: ["انشاء"],textsStyle: [AppTextStyle.largeWhiteSemiBold],textAlign: TextAlign.center),
                           padding: EdgeInsets.symmetric(vertical: 13),
                           borderRadius: 12,
                           color: AppColors.primary,
@@ -137,22 +152,22 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                                   });
                                 },
                                 onData: (val){
+
                                   setState(() {
                                     _isLoading = false;
                                   });
                                   if(val.code == 200)
                                   {
                                     showAlertDialog(context,val.message);
-                                    /*Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-                                        builder: (context) => Home()
+                                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                                        builder: (context) => SignInIU()
                                     ),(route){
                                       return false;
-                                    });*/
-                                    print("AAAAAAAAAAA");
+                                    });
 
                                   }
-                                  else showErrorDialog(context, val.message??'');
-                                }
+                                  else showErrorDialog(context, val.message.toString()??'');
+                                },
                             );
 
 
@@ -259,7 +274,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                         ),
                         child: Center(
                           child:  Text(
-                            "No Image to show !",
+                            "اضف صورة",
                             style: TextStyle(fontSize: MediaQuery.of(context).size.width>600?24:20, color: AppColors.gray343),
                           ),
                         )
@@ -283,30 +298,30 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
 
   bool validate(){
     if(Utils.isTextEmpty(firstNameController))
-      return emptyAlert('user first name');
+      return emptyAlert('اسم المستخدم');
     if(Utils.isTextEmpty(lastNameController))
-      return emptyAlert('user last name');
+      return emptyAlert('الكنية');
     if(Utils.isTextEmpty(phoneController))
-      return emptyAlert('user phone');
+      return emptyAlert('رقم الهاتف');
     if(Utils.isTextEmpty(passwordController))
-      return emptyAlert('password');
+      return emptyAlert('كلمة السر');
     if(Utils.isTextEmpty(confirmPasswordController))
-      return emptyAlert('confirm password');
+      return emptyAlert('تاكيد كلمة السر');
     if(passwordController.text.length < 6){
-      showErrorDialog(context, "lessThan6");
+      showErrorDialog(context, "عدد المحارف اقل من 6");
       return false;
     }
     if(confirmPasswordController.text.length < 6){
-      showErrorDialog(context, "lessThan6");
+      showErrorDialog(context, "عدد المحارف اقل من 6");
       return false;
     }
     if(confirmPasswordController.text.compareTo(passwordController.text)!=0){
-      showErrorDialog(context, "confirm password != password");
+      showErrorDialog(context, "كلمة السر لا تطابق تاكيد كلمة السر");
       return false;
     }
-    if(file==null)
+    if(file!.path.isEmpty)
       {
-        showErrorDialog(context, "select image");
+        showErrorDialog(context, "اضافة الصورة امر ضروري");
         return false;
       }
     return true;
@@ -314,7 +329,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
   }
   bool emptyAlert(String key)
   {
-    showErrorDialog(context, "empty "+key);
+    showErrorDialog(context,key+ " فارغ ");
     return false;
   }
 

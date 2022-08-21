@@ -1,5 +1,6 @@
 import 'package:Courses/Bloc/SubjectBloc.dart';
-import 'package:Courses/Views/LessonsUI.dart';
+import 'package:Courses/Resources/ApiProvider.dart';
+import 'package:Courses/Views/Course/LessonsUI.dart';
 import 'package:Courses/Widget/AppDialogs.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-import '../views/VideoView.dart';
 
 class CourseTile extends StatelessWidget {
   final String ?imageURL, title,description;
@@ -52,8 +51,8 @@ class CourseTile extends StatelessWidget {
               }
             }else{
               displayTextInputDialog(context,
-                  "This course is not available to you, if you want it, you have to buy its code",
-                  "Insert your code",onOk: (code){
+                  "هذه الدورة غير متاحة لك ، إذا كنت ترغب في ذلك ، عليك شراء الكود الخاص بها",
+                  "ادخل الكود",onOk: (code){
                      print(code);
                      print(courseID);
                     bloc!.InsertCode(code: code,
@@ -102,8 +101,8 @@ class CourseTile extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
                   child: Text(
@@ -116,24 +115,30 @@ class CourseTile extends StatelessWidget {
              Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+
                     children: [
                       isFree!? Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          SvgPicture.asset("assets/icon.svg"),
-                          SizedBox(
-                            width: 8,
-                          ),
                           Text(
-                            "Free",
+                            "مجاني",
                             style: GoogleFonts.notoSans(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 fontSize: 14),
-                          )
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Padding(padding: EdgeInsets.only(bottom: 5),child:SvgPicture.asset("assets/icon.svg"),),
+
+
+
                         ],
                       ):Text(
-                        "price : "+ price,
+                        "السعر : "+ price +" ل.س",
                         style: GoogleFonts.notoSans(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,

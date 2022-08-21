@@ -40,7 +40,7 @@ Future<T?> showAlertDialog<T>(BuildContext? context,String? msg,{bool isError = 
               onTap: (){
                 Navigator.of(context).pop(true);
               },
-              child: Center(child: Text("ok",style: AppTextStyle.normalBlackBold,textAlign: TextAlign.center,),)
+              child: Center(child: Text("موافق",style: AppTextStyle.normalBlackBold,textAlign: TextAlign.center,),)
           ),width: 70,height: 30,)
         ],
       ),
@@ -94,7 +94,10 @@ Future<void> displayTextInputDialog(BuildContext context,String title,String pla
       builder: (context) {
         return AlertDialog(
           title: Text( title, style: AppTextStyle.normalBlackBold ,textAlign: TextAlign.center,),
-          content: helper.getTextField(_textFieldController, false, _textFieldF, null,placeHolder),
+          content:Directionality(
+            textDirection: TextDirection.rtl,
+            child:helper.getTextField(_textFieldController, false, _textFieldF, null,placeHolder),
+          ),
           actions: <Widget>[
             CustomAppButton(
               elevation: 0,
@@ -103,12 +106,12 @@ Future<void> displayTextInputDialog(BuildContext context,String title,String pla
                // onCancel(_textFieldController.text);
                 Navigator.of(context).pop(true);
               },
-              child: Text("cancel",style: AppTextStyle.normalBlackBold.copyWith(
+              child: Text("الغاء",style: AppTextStyle.normalBlackBold.copyWith(
                   color: AppColors.black
               ),),
             ),
             SizedBox(width: 16,),
-            CustomAppButton(
+            Padding(padding: EdgeInsets.only(bottom: 5),child: CustomAppButton(
               elevation: 0,
               color: AppColors.white,
               onTap: (){
@@ -117,10 +120,10 @@ Future<void> displayTextInputDialog(BuildContext context,String title,String pla
                 }
                 Navigator.of(context).pop(true);
               },
-              child: Text("ok",style: AppTextStyle.normalBlackBold.copyWith(
+              child: Text("موافق",style: AppTextStyle.normalBlackBold.copyWith(
                   color:  AppColors.black
               ),),
-            ),
+            ),),
             SizedBox(width: 10,),
 
           ],

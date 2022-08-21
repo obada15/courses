@@ -2,10 +2,10 @@ import 'package:Courses/Bloc/BaseBloc.dart';
 import 'package:Courses/Bloc/GeneralBloc.dart';
 import 'package:Courses/DataStore.dart';
 import 'package:Courses/Resources/AppMsg.dart';
+import 'package:Courses/Views/Auth/SplashUI.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 abstract class BaseUI<Bloc extends BaseBloc> extends StatefulWidget {
   final Bloc? bloc;
@@ -115,8 +115,8 @@ abstract class BaseUIState<basePage extends BaseUI> extends State<basePage> {
       print("base bloc errorsStream listen AppMsg error handler ${data}");
       AppMsg error = data;
       if (error.code == 401) {
-        Phoenix.rebirth(context);
-        // handleNotAuthUser();
+       // Phoenix.rebirth(context);
+         handleNotAuthUser();
       } else if (error.code == -2) {
         print(error.data.toString());
         // Fluttertoast.showToast(msg: error.data.toString());
@@ -157,10 +157,15 @@ abstract class BaseUIState<basePage extends BaseUI> extends State<basePage> {
   void handleNotAuthUser() {
     dataStore.setUser(null).then((val) {
       Fluttertoast.showToast(
-          msg:
-              'There is another login operation from another device, please login again',
+          msg: 'هناك عملية تسجيل دخول أخرى من جهاز آخر ، يرجى تسجيل الدخول مرة أخرى',
           toastLength: Toast.LENGTH_LONG);
-      Phoenix.rebirth(genBloc.navigatorKey.currentContext!);
+      Navigator.of(genBloc.navigatorKey.currentContext!).pushAndRemoveUntil(MaterialPageRoute(
+          builder: (context) => SplashUI()
+      ),(route){
+        return false;
+      });
+      //Phoenix.rebirth(genBloc.navigatorKey.currentContext!);
+      return true;
     });
   }
 }

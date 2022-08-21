@@ -19,6 +19,22 @@ class QuestionOption extends StatelessWidget {
       alignment: Alignment.center,
       child: Row(
         children: [
+
+          Expanded(
+            flex: 1,
+            child: Container(
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(right: 10),
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: 25,
+                  color: AppColors.black,
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ),
           SizedBox(
             width: 50,
             height: 50,
@@ -48,21 +64,6 @@ class QuestionOption extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: 10),
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontSize: 25,
-                  color: AppColors.black,
-                ),
-                textAlign: TextAlign.left,
-              ),
             ),
           ),
         ],

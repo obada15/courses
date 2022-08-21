@@ -11,12 +11,16 @@ String subjectModelToJson(SubjectModel data) => json.encode(data.toJson());
 class SubjectModel {
   SubjectModel({
     this.message,
+    this.telegram_link,
+    this.whatsapp_link,
     this.code,
     this.subjects,
     this.courses,
     this.freeCourses,
   });
   String? message;
+  String? telegram_link;
+  String? whatsapp_link;
   int? code;
   List<SubjectM>? subjects;
   List<CourseM>? courses;
@@ -26,6 +30,8 @@ class SubjectModel {
     return SubjectModel(
       message: json["message"] == null ? null : json["message"]!,
       code: json["status_code"] == null ? null : json["status_code"]!,
+      whatsapp_link: json['data']["whatsapp_link"] == null ? null : json['data']["whatsapp_link"]!,
+      telegram_link: json['data']["telegram_link"] == null ? null : json['data']["telegram_link"]!,
       subjects: json["data"]['subjects'] == null ? null : List<SubjectM>.from(json["data"]['subjects'].map((x) => SubjectM.fromJson(x))),
       courses: json["data"]['courses'] == null ? null : List<CourseM>.from(json["data"]['courses'].map((x) => CourseM.fromJson(x))),
       freeCourses: json["data"]['free_courses'] == null ? null : List<CourseM>.from(json["data"]['free_courses'].map((x) => CourseM.fromJson(x))),

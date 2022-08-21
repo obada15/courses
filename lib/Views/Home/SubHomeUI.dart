@@ -1,5 +1,7 @@
+import 'package:Courses/Bloc/GeneralBloc.dart';
 import 'package:Courses/Bloc/HomeBloc.dart';
 import 'package:Courses/Bloc/SubjectBloc.dart';
+import 'package:Courses/Helper/AppColors.dart';
 import 'package:Courses/Models/SubjectModel.dart';
 import 'package:Courses/Views/BaseUI.dart';
 import 'package:Courses/Widget/SubjectTile.dart';
@@ -7,6 +9,7 @@ import 'package:Courses/Widget/CourseTile.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubHomeUI extends BaseUI<SubjectBloc> {
   @override
@@ -28,7 +31,7 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "Home",
+        "الرئيسية",
         nameUI: "Home"
     );
   }
@@ -42,7 +45,7 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
           if (snapshot.hasData) {
             if (snapshot.data == null || snapshot.data!.subjects!.isEmpty) {
               return helper.noDataFound(
-                  context, "no data found" + "\n" + "pls try again");
+                  context, "لا يوجد معلومات" + "\n" + "نرجوا المحاولة مرة اخرى");
             }
             SubjectModel? data= snapshot.data;
 
@@ -76,14 +79,15 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 12),
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.topRight,
                       child: Text(
-                        "Most Popular Courses",
+                        "الدورات الاكثر شيوعا",textAlign: TextAlign.end,
                         style: GoogleFonts.notoSans(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Color(0xff232323)),
                       ),
+
                     ),
                     Container(
                       child: ListView.builder(
@@ -109,9 +113,9 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                     Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                     Container(
                       padding: EdgeInsets.symmetric(vertical: 12),
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.topRight,
                       child: Text(
-                        "Free Courses",
+                        "الدورات المجانية",
                         style: GoogleFonts.notoSans(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -139,7 +143,37 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                             );
                           }),
                     ),
-
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          //padding: EdgeInsets.symmetric(vertical: 12),
+                          alignment: Alignment.topLeft,
+                          child: InkWell(
+                            child: Image.asset("assets/telegram.png",width: 60,height: 60,),
+                            onTap: (){
+                              launchUrl(data.telegram_link.toString());
+                              print(data.telegram_link.toString());
+                            },
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
+                        Container(
+                          //padding: EdgeInsets.symmetric(vertical: 12),
+                            alignment: Alignment.topLeft,
+                            child: InkWell(
+                              child: Image.asset("assets/whatsapp.png",width: 60,height: 60,),
+                              onTap: (){
+                                print(data.whatsapp_link.toString());
+                                launchUrl(data.whatsapp_link.toString());
+                              },
+                            )
+                        ),
+                      ],
+                    ),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 10)),
 
                   ],
                 ),
@@ -151,6 +185,12 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
           );
 
         });
+  }
+  void launchUrl(String url) async {
+    print("launchingUrl: $url");
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
   }
 
   @override

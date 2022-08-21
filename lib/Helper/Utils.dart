@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'dart:convert';
+import 'dart:io';
 class Utils {
 
 //  static multiImagesSelector(callBack(List<Asset> resultImages)){
@@ -132,6 +133,10 @@ class Utils {
    static bool isTextEmpty(TextEditingController controller){
     return controller.text.trim().isEmpty;
   }
+  static String testInput(String url){
+   Codec<String, String> stringToBase64Url = utf8.fuse(base64Url);
+   return stringToBase64Url.decode(url);
+ }
   static String get getEmailPattern{
     return r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
   }

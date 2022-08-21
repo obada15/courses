@@ -5,8 +5,9 @@ import 'package:Courses/Helper/AppColors.dart';
 import 'package:Courses/Helper/ThemeConstant.dart';
 import 'package:Courses/Models/QuizModel.dart';
 import 'package:Courses/Models/SubjectModel.dart';
+import 'package:Courses/Resources/ApiProvider.dart';
 import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/ResultQuizUI.dart';
+import 'package:Courses/Views/Quiz/ResultQuizUI.dart';
 import 'package:Courses/Widget/CourseTile.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:Courses/Widget/DiscoButton.dart';
@@ -14,15 +15,14 @@ import 'package:Courses/Widget/QuestionOption.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class QuizUI extends BaseUI<QuizBloc> {
   final String quizID;
+  final String type;
   final double quizMark;
   @override
   _QuizUIState createState() => _QuizUIState();
-  QuizUI({required this.quizID,required this.quizMark}) : super(bloc: QuizBloc());
+  QuizUI({required this.quizID,required this.quizMark,required this.type}) : super(bloc: QuizBloc());
 
 }
 
@@ -51,7 +51,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "Quiz",
+        "الاختبار",
         nameUI: "Quiz"
     );
   }
@@ -69,7 +69,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
           if (snapshot.hasData) {
             if (snapshot.data == null || snapshot.data!.questions!.isEmpty) {
               return helper.noDataFound(
-                  context, "no data found" + "\n" + "pls try again");
+                  context, "لا يوجد معلومات" + "\n" + "نرجوا المحاولة مرة اخرى");
             }
 
             data= snapshot.data;
@@ -100,10 +100,13 @@ class _QuizUIState extends BaseUIState<QuizUI> {
                       height: MediaQuery.of(context).size.height/4,
                       alignment: Alignment.center,
                       decoration: ThemeConstant.roundBoxDeco(),
-                      child: helper.getTextField(answerController, false, answer, answer,"Answer",inputType:
-                      TextInputType.multiline,maxLines: 10,minLines: 10,)
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child:helper.getTextField(answerController, false, answer, answer,"الاجابة",inputType:
+                        TextInputType.multiline,maxLines: 10,minLines: 10,textAlign: TextAlign.end,)
+                      ),
                   ),
-                  Padding(padding: EdgeInsets.symmetric(vertical: 40)),
+                  Padding(padding: EdgeInsets.symmetric(vertical: 20)),
                   CustomTimer(
                     controller: _controllerTime,
                     from: Duration(seconds: 1),
@@ -194,7 +197,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
   Widget questionOptions(QuestionM question) {
     return Container(
       alignment: Alignment.center,
-      height: MediaQuery.of(context).size.height/2.8,
+      height: MediaQuery.of(context).size.height/2.3,
       decoration: ThemeConstant.roundBoxDeco(),
       child: Column(
         children: List<QuestionSelectionsM>.from(question?.questionSelections ?? []).map((e) {
@@ -279,7 +282,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
             back();
           },
           child: Text(
-            "Back",
+            "السابق",
             style: TextStyle(fontSize: 20),
           ),
           width: 130,
@@ -291,7 +294,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
             next();
           },
           child: Text(
-            questionIndex+1==maxQuestionCount?"Submit":  "Next",
+            questionIndex+1==maxQuestionCount?"انهاء":  "التالي",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           isActive: true,
@@ -332,7 +335,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => ResultQuizUI(int.parse(widget.quizID),totalMarks,widget.quizMark,data,executionQuizTime,answers),
+            builder: (context) => ResultQuizUI(int.parse(widget.quizID),totalMarks,widget.quizMark,data,executionQuizTime,answers,widget.type),
           ),
         );
       }
@@ -433,6 +436,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
   }
   @override
   void init() {
+    widget.withRefresh=false;
     retry();
   }
 

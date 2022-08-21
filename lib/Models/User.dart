@@ -14,7 +14,7 @@ class UserModel {
     this.data,
   });
 
-  String? message;
+  dynamic message;
   int? code;
   Data? data;
 
@@ -35,16 +35,51 @@ class UserModel {
 class Data {
   Data({
     this.api_token,
+    this.user,
   });
 
   String? api_token;
+  UserM ?user;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     api_token: json["api_token"] == null ? null : json["api_token"],
+    user: json['user'] == null ? null : UserM.fromJson(json['user']),
   );
 
   Map<String, dynamic> toJson() => {
     "api_token": api_token == null ? null : api_token,
+    "user": user == null ? null : user!.toJson(),
+  };
+}
+class UserM{
+  UserM({
+    this.id,
+    this.first_name,
+    this.last_name,
+    this.mobile_number,
+    this.email,
+  });
+
+  String? first_name;
+  String? last_name;
+  String? mobile_number;
+  String? email;
+  int? id;
+
+  factory UserM.fromJson(Map<String, dynamic> json) => UserM(
+    id: json["id"] == null ? null : json["id"],
+    first_name: json["first_name"] == null ? null : json["first_name"],
+    last_name: json["last_name"] == null ? null : json["last_name"],
+    mobile_number: json["mobile_number"] == null ? null : json["mobile_number"],
+    email: json["email"] == null ? null : json["email"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id == null ? null : id,
+    "first_name": first_name == null ? null : first_name,
+    "last_name": last_name == null ? null : last_name,
+    "mobile_number": mobile_number == null ? null : mobile_number,
+    "email": email == null ? null : email,
   };
 }
 
@@ -66,7 +101,7 @@ class User {
   String? lastName;
   String? email;
   String? password;
-  dynamic phone;
+  String? phone;
   String? idImage;
   String? displayImageName;
 
@@ -79,22 +114,6 @@ class User {
     email: json["email"] == null ? null : json["email"],
     idImage: json["id_image"] == null ? null : json["id_image"],
   );
-/*
-  Map<String, dynamic> toJson() => {
-    "user_id": userId == null ? null : userId,
-    "user_first_name": userFirstName == null ? null : userFirstName,
-    "user_last_name": userLastName == null ? null : userLastName,
-    "user_full_name": userFullName == null ? null : userFullName,
-    "user_email": userEmail == null ? null : userEmail,
-    "user_address": userAddress,
-    "user_phone": userPhone,
-    "user_role": userRole == null ? null : userRole!.toJson(),
-    "user_status": userStatus == null ? null : userStatus,
-    "user_valet_company_id": userValetCompanyId == null ? null : userValetCompanyId,
-    "user_subscribed_business": userSubscribedBusiness,
-    "user_image": userImage == null ? null : userImage,
-  };
-*/
 
   Future<FormData> toJson() async {
     FormData _formData = FormData.fromMap({

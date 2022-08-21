@@ -1,19 +1,16 @@
 
 import 'package:Courses/Bloc/AuthBloc.dart';
 import 'package:Courses/Extensions/StringsEx.dart';
+import 'package:Courses/Views/Auth/SignInUI.dart';
 import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/HomeUI.dart';
-import 'package:Courses/Views/SubHomeUI.dart';
-import 'package:Courses/Views/LessonsUI.dart';
-import 'package:Courses/Views/Quizes.dart';
-import 'package:Courses/Views/SignInUI.dart';
+import 'package:Courses/Views/Home/HomeUI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/app_bar.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-import '../DataStore.dart';
-import '../Widget/HelperWigets.dart';
+import '../../DataStore.dart';
+import '../../Widget/HelperWigets.dart';
 
 class SplashUI extends BaseUI<AuthBloc> {
   @override
@@ -65,7 +62,7 @@ class _SplashUIState extends BaseUIState<SplashUI> {
     // });
 
       Future.delayed(Duration(seconds: 2), () {
-
+       if(mounted)
         newRoot();
       });
 

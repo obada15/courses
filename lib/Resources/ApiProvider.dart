@@ -21,7 +21,7 @@ class ApiProvider{
   Map<String, String> getHeader({var isAuth = true}){
     return {
       "Accept": "application/json",
-      "Authorization": (dataStore.user == null || !isAuth) ? '' :"Bearer "+ (dataStore?.user?.data?.api_token?? "")
+      "Authorization": (dataStore.user == null || !isAuth) ? '' :"Bearer "+ (dataStore?.user?.data?.api_token?? ""),
     };
   }
   Map<String, String> getSignUpHeader(){

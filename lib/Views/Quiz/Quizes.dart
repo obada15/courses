@@ -7,13 +7,11 @@ import 'package:Courses/Helper/AppTextStyle.dart';
 import 'package:Courses/Models/QuizModel.dart';
 import 'package:Courses/Models/SubjectModel.dart';
 import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/QuizUI.dart';
+import 'package:Courses/Views/Quiz/QuizUI.dart';
 import 'package:Courses/Widget/AppDialogs.dart';
 import 'package:Courses/Widget/CourseTile.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class Quizes extends BaseUI<QuizBloc> {
@@ -35,7 +33,7 @@ class _QuizesState extends BaseUIState<Quizes> {
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "Quizes",
+        "الاختبارات",
         nameUI: "Quizes"
     );
   }
@@ -64,7 +62,7 @@ class _QuizesState extends BaseUIState<Quizes> {
           if (snapshot.hasData) {
             if (snapshot.data == null || snapshot.data!.quizzes!.isEmpty) {
               return helper.noDataFound(
-                  context, "no data found" + "\n" + "pls try again");
+                  context, "لا يوجد معلومات" + "\n" + "نرجوا المحاولة مرة اخرى");
             }
             QuizModel? data= snapshot.data;
 
@@ -93,21 +91,40 @@ class _QuizesState extends BaseUIState<Quizes> {
           child: categoryListViewItem(x),
           onTap: () async {
             print(x.id);
-            if(x.is_completed==1)
+            if(x.type!.compareTo("training")==0)
               {
-                showAlertDialog(context,"This Quiz is Complete For You",isError: false);
-              }else{
-             var back=await pushNewScreen(context, screen: QuizUI(
-                quizID: x.id.toString(),
-                quizMark: double.parse(x.mark.toString()),
-              ),
-                withNavBar:false,
-              );
-             if(back!=null)
-               {
-                 retry();
-               }
+                var back=await pushNewScreen(context, screen: QuizUI(
+                  quizID: x.id.toString(),
+                  quizMark: double.parse(x.mark.toString()),
+                  type:x.type! ,
+                ),
+                  withNavBar:false,
+                );
+                if(back!=null)
+                {
+                  retry();
+                }
+              }
+            else{
+              if(x.is_completed==1)
+              {
+                showAlertDialog(context,"هذا الاختبار لقد قمت به بالفعل",isError: false);
+              }
+              else{
+                var back=await pushNewScreen(context, screen: QuizUI(
+                  quizID: x.id.toString(),
+                  quizMark: double.parse(x.mark.toString()),
+                  type:x.type! ,
+                ),
+                  withNavBar:false,
+                );
+                if(back!=null)
+                {
+                  retry();
+                }
+              }
             }
+
 
           },
         ))

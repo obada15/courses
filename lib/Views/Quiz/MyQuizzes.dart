@@ -7,12 +7,8 @@ import 'package:Courses/Helper/AppTextStyle.dart';
 import 'package:Courses/Models/QuizModel.dart';
 import 'package:Courses/Models/SubjectModel.dart';
 import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/QuizUI.dart';
-import 'package:Courses/Widget/CourseTile.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MyQuizzes extends BaseUI<QuizBloc> {
   @override
@@ -33,7 +29,7 @@ class _MyQuizzesState extends BaseUIState<MyQuizzes> {
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "My Quizzes",
+        "اختباراتي",
         nameUI: "My Quizzes"
     );
   }
@@ -66,7 +62,7 @@ class _MyQuizzesState extends BaseUIState<MyQuizzes> {
               }
             if (snapshot.data == null || snapshot.data!.quizzes!.isEmpty) {
               return helper.noDataFound(
-                  context, "no data found" + "\n" + "pls try again");
+                  context, "لا يوجد معلومات" + "\n" + "نرجوا المحاولة مرة اخرى");
             }
             MyQuizModel? data= snapshot.data;
 
@@ -118,8 +114,11 @@ class _MyQuizzesState extends BaseUIState<MyQuizzes> {
             width: 100,
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-          helper.mainTextView(texts: [quizM!.title!+"\n",quizM.user_mark.toString()+" / "+quizM.total_mark.toString()+"\n"
-              "","Solving Time : "+quizM.execution_time!],textsStyle: [AppTextStyle.largeBlackBold,
+          helper.mainTextView(texts: [quizM!.title!],textsStyle: [AppTextStyle.largeBlackBold,
+            AppTextStyle.mediumBlackBold,AppTextStyle.smallBlackBold],textAlign: TextAlign.center,myOverflow: TextOverflow.visible),
+          Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+          helper.mainTextView(texts: [quizM.user_mark.toString()+" / "+quizM.total_mark.toString()+"\n"
+              "","وقت الحل : "+quizM.execution_time!],textsStyle: [AppTextStyle.largeBlackBold,
             AppTextStyle.mediumBlackBold,AppTextStyle.smallBlackBold],textAlign: TextAlign.center)
         ],
       ),

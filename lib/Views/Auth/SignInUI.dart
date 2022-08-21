@@ -6,10 +6,10 @@ import 'package:Courses/Extensions/StringsEx.dart';
 import 'package:Courses/Helper/AppColors.dart';
 import 'package:Courses/Helper/AppTextStyle.dart';
 import 'package:Courses/Helper/Utils.dart';
+import 'package:Courses/Views/Auth/SignUpUI.dart';
 import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/HomeUI.dart';
-import 'package:Courses/Views/SubHomeUI.dart';
-import 'package:Courses/Views/SignUpUI.dart';
+import 'package:Courses/Views/Home/HomeUI.dart';
+import 'package:Courses/Views/Home/SubHomeUI.dart';
 import 'package:Courses/Widget/AppDialogs.dart';
 import 'package:Courses/Widget/CustomAppButton.dart';
 import 'package:Courses/Widget/HelperWigets.dart';
@@ -72,17 +72,25 @@ class _SignInIUState extends BaseUIState<SignInIU> {
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: Column(
                   children: <Widget>[
-                    helper.getTextField(phoneController, false, phone, password,"phone",inputType:
-                    TextInputType.phone,pattern: Utils.getNumberPattern,errorMessage: "phone validator"),
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child:helper.getTextField(phoneController, false, phone, password,"رقم الهاتف",inputType:
+                      TextInputType.phone,pattern: Utils.getNumberPattern,errorMessage: "تاكد من رقم الهاتف"),
+                    ),
+
                     SizedBox(
                       height: 8,
                     ),
-                    helper.getTextField(passwordController, true, password, null,'password',isShowEye: true),
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child:helper.getTextField(passwordController, true, password, null,'كلمة السر',isShowEye: true),
+                    ),
+
                     SizedBox(height: 64,),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.5,
                       child: CustomAppButton(
-                        child: helper.mainTextView(texts: ["login"],textsStyle: [AppTextStyle.largeWhiteSemiBold],textAlign: TextAlign.center),
+                        child: helper.mainTextView(texts: ["تسجيل الدخول"],textsStyle: [AppTextStyle.largeWhiteSemiBold],textAlign: TextAlign.center),
                         padding: EdgeInsets.symmetric(vertical: 13),
                         borderRadius: 12,
                         color: AppColors.primary,
@@ -126,8 +134,8 @@ class _SignInIUState extends BaseUIState<SignInIU> {
                     ),
                     SizedBox(height: 24,),
                     InkWell(
-                      child: helper.mainTextView(texts: ["Do you have an account?"],textAlign: TextAlign.start,textsStyle: [
-                        TextStyle(color: AppColors.primary,fontSize: 18)]),
+                      child: helper.mainTextView(texts: ["هل تمتلك حساباً ؟"],textAlign: TextAlign.start,textsStyle: [
+                        TextStyle(color: AppColors.primary,fontSize: 18,decoration: TextDecoration.underline)]),
                       onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => SignUpUI()
@@ -155,11 +163,11 @@ class _SignInIUState extends BaseUIState<SignInIU> {
 
   bool validate(){
     if(Utils.isTextEmpty(phoneController))
-      return emptyAlert('user phone');
+      return emptyAlert('رقم الهاتف');
     if(Utils.isTextEmpty(passwordController))
-      return emptyAlert('password');
+      return emptyAlert('كلمة السر');
     if(passwordController.text.length < 6){
-      showErrorDialog(context, "lessThan6");
+      showErrorDialog(context, "عدد المحارف اقل من 6");
       return false;
     }
 
@@ -168,7 +176,7 @@ class _SignInIUState extends BaseUIState<SignInIU> {
   }
   bool emptyAlert(String key)
   {
-    showErrorDialog(context, "empty "+key);
+    showErrorDialog(context,key+ " فارغ ");
     return false;
   }
 

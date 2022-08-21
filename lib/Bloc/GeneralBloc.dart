@@ -11,17 +11,8 @@ class SingletonBloc {
 
   GlobalKey<NavigatorState> navigatorKey =
   new GlobalKey<NavigatorState>();
-  /*f_getNetworks(){
-    apiProvider.getNetworks().then((value) {
-      _networksController.sink.add(value);
-    },onError: (error){
-
-    });
-  }*/
-
 
   SingletonBloc._internal();
-
 }
 
 final genBloc = SingletonBloc();

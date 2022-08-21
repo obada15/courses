@@ -82,6 +82,7 @@ class VideoM {
     this.id,
     this.title,
     this.link,
+    this.description,
     this.lesson_id,
     this.created_at,
     this.updated_at,
@@ -90,6 +91,7 @@ class VideoM {
   int ?id;
   String ?title;
   String ?link;
+  String ?description;
   int ?lesson_id;
   String ?created_at;
   String ?updated_at;
@@ -100,6 +102,7 @@ class VideoM {
       id: json["id"] == null ? null : json["id"],
       title: json["title"] == null ? null : json["title"],
       link: json["link"] == null ? null : json["link"],
+      description: json["description"] == null ? null : json["description"],
       lesson_id: json["lesson_id"] == null ? null : json["lesson_id"],
       created_at: json["created_at"] == null ? null : json["created_at"],
       updated_at: json["updated_at"] == null ? null : json["updated_at"],
@@ -109,6 +112,7 @@ class VideoM {
   Map<String, dynamic> toJson() => {
     "id": id == null ? null : id,
     "title": title == null ? null : title,
+    "description": description == null ? null : description,
     "link": link == null ? null : link,
     "lesson_id": lesson_id == null ? null : lesson_id,
     "created_at": created_at == null ? null : created_at,

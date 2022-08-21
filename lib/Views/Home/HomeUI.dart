@@ -6,11 +6,10 @@ import 'package:Courses/Extensions/StringsEx.dart';
 import 'package:Courses/Helper/AppColors.dart';
 import 'package:Courses/Helper/AppTextStyle.dart';
 import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/MyCourses.dart';
-import 'package:Courses/Views/MyProfile.dart';
-import 'package:Courses/Views/MyQuizzes.dart';
-import 'package:Courses/Views/Quizes.dart';
-import 'package:Courses/Views/SubHomeUI.dart';
+import 'package:Courses/Views/Course/MyCourses.dart';
+import 'package:Courses/Views/Quiz/MyQuizzes.dart';
+import 'package:Courses/Views/Quiz/Quizes.dart';
+import 'package:Courses/Views/Home/SubHomeUI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +47,7 @@ class HomeUIState extends BaseUIState<HomeUI> {
           bottomScreenMargin: 0,
           items: _navBarsItems(),
           navBarStyle: NavBarStyle.style8,
-          navBarHeight: 80,
+          navBarHeight: 90,
           padding: NavBarPadding.only(bottom: 10),
           /*onItemSelected: (index) async{
             setState(() {
@@ -86,10 +85,10 @@ class HomeUIState extends BaseUIState<HomeUI> {
     var temp =
     [
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home,color: AppColors.primary,),
-        inactiveIcon:Icon(Icons.home,color: AppColors.black,),
+        icon: Icon(Icons.home,color: AppColors.primary,size: 33,),
+        inactiveIcon:Icon(Icons.home,color: AppColors.black,size: 33,),
         textStyle: AppTextStyle.smallBlack,
-        title: 'Home',
+        title: 'الرئيسية',
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: CupertinoColors.darkBackgroundGray,
       ),
@@ -97,7 +96,7 @@ class HomeUIState extends BaseUIState<HomeUI> {
         icon: Image.asset("assets/ideas.png",color: AppColors.primary,),
         inactiveIcon:Image.asset("assets/ideas.png",color: AppColors.black,),
         textStyle: AppTextStyle.smallBlack,
-        title: 'My Quizzes',
+        title: 'اختباراتي',
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: CupertinoColors.darkBackgroundGray,
       ),
@@ -105,7 +104,7 @@ class HomeUIState extends BaseUIState<HomeUI> {
         icon: Image.asset("assets/ebook.png",color: AppColors.primary,),
         inactiveIcon:Image.asset("assets/ebook.png",color: AppColors.black,),
         textStyle: AppTextStyle.smallBlack,
-        title: 'My Courses',
+        title: 'دوراتي',
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: CupertinoColors.darkBackgroundGray,
       ),
@@ -114,7 +113,7 @@ class HomeUIState extends BaseUIState<HomeUI> {
         icon: Image.asset("assets/quizicon.png",color: AppColors.primary,),
         inactiveIcon:Image.asset("assets/quizicon.png",color: AppColors.black,),
         textStyle: AppTextStyle.smallBlack,
-        title: 'Quizzes',
+        title: 'الاختبارات',
         activeColorPrimary: AppColors.primary,
         inactiveColorPrimary: CupertinoColors.darkBackgroundGray,
       ),

@@ -67,6 +67,7 @@ class QuizM {
     this.id,
     this.title,
     this.description,
+    this.type,
     this.mark,
     this.is_completed,
     this.created_at,
@@ -76,6 +77,7 @@ class QuizM {
   int ?id;
   String ?title;
   String ?description;
+  String ?type;
   int ?mark;
   int ?is_completed;
   String ?created_at;
@@ -87,6 +89,7 @@ class QuizM {
       id: json["id"] == null ? null : json["id"],
       title: json["title"] == null ? null : json["title"],
       description: json["description"] == null ? null : json["description"],
+      type: json["type"] == null ? null : json["type"],
       mark: json["mark"] == null ? null : json["mark"],
       is_completed: json["is_completed"] == null ? null : json["is_completed"],
       created_at: json["created_at"] == null ? null : json["created_at"],
@@ -98,6 +101,7 @@ class QuizM {
     "id": id == null ? null : id,
     "title": title == null ? null : title,
     "description": description == null ? null : description,
+    "type": type == null ? null : type,
     "mark": mark == null ? null : mark,
     "is_completed": is_completed == null ? null : is_completed,
     "created_at": created_at == null ? null : created_at,

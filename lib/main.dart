@@ -1,32 +1,22 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'package:Courses/Bloc/GeneralBloc.dart';
 import 'package:Courses/DataStore.dart';
-import 'package:Courses/Views/HomeUI.dart';
-import 'package:Courses/Views/SplashUI.dart';
+import 'package:Courses/Views/Auth/SplashUI.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:crypto/crypto.dart';
 
-import 'Views/SubHomeUI.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
 main () async {
   WidgetsFlutterBinding.ensureInitialized();
-  /*SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.blueAccent,
-    ),
-  );*/
   await dataStore.getUser();
+
 
   if(Platform.isAndroid)
   await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 
-  runApp(Phoenix(child: MyApp(),
-    
-  ));
+  runApp(MyApp());
 }
 
 
@@ -37,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Courses",
+      navigatorKey: genBloc.navigatorKey,
       debugShowCheckedModeBanner: false,
       home: SplashUI(),
     );

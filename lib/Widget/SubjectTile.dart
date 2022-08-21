@@ -1,11 +1,12 @@
 import 'package:Courses/Helper/AppColors.dart';
+import 'package:Courses/Resources/ApiProvider.dart';
+import 'package:Courses/Views/Course/Courses.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-import '../views/Courses.dart';
 
 class SubjectTile extends StatelessWidget {
   final String ?imageURL, subjectName,subjectID;
