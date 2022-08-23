@@ -1,14 +1,14 @@
 
-import 'package:Courses/Bloc/LessonBloc.dart';
+import 'package:Science/Bloc/LessonBloc.dart';
 
-import 'package:Courses/Helper/AppColors.dart';
-import 'package:Courses/Helper/ThemeConstant.dart';
-import 'package:Courses/Helper/Utils.dart';
-import 'package:Courses/Models/LessonModel.dart';
-import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/Course/VideoView.dart';
-import 'package:Courses/Widget/CourseTile.dart';
-import 'package:Courses/Widget/HelperWigets.dart';
+import 'package:Science/Helper/AppColors.dart';
+import 'package:Science/Helper/ThemeConstant.dart';
+import 'package:Science/Helper/Utils.dart';
+import 'package:Science/Models/LessonModel.dart';
+import 'package:Science/Views/BaseUI.dart';
+import 'package:Science/Views/Course/VideoView.dart';
+import 'package:Science/Widget/CourseTile.dart';
+import 'package:Science/Widget/HelperWigets.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';

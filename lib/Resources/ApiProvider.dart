@@ -1,11 +1,11 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:Courses/Models/GeneralRespones.dart';
-import 'package:Courses/Models/LessonModel.dart';
-import 'package:Courses/Models/QuizModel.dart';
-import 'package:Courses/Models/SubjectModel.dart';
-import 'package:Courses/Models/User.dart';
+import 'package:Science/Models/GeneralRespones.dart';
+import 'package:Science/Models/LessonModel.dart';
+import 'package:Science/Models/QuizModel.dart';
+import 'package:Science/Models/SubjectModel.dart';
+import 'package:Science/Models/User.dart';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;

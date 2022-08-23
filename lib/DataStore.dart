@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:Courses/Models/User.dart';
+import 'package:Science/Models/User.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DataStore {

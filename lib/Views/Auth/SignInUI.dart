@@ -1,18 +1,18 @@
 
 
-import 'package:Courses/Bloc/AuthBloc.dart';
-import 'package:Courses/DataStore.dart';
-import 'package:Courses/Extensions/StringsEx.dart';
-import 'package:Courses/Helper/AppColors.dart';
-import 'package:Courses/Helper/AppTextStyle.dart';
-import 'package:Courses/Helper/Utils.dart';
-import 'package:Courses/Views/Auth/SignUpUI.dart';
-import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/Home/HomeUI.dart';
-import 'package:Courses/Views/Home/SubHomeUI.dart';
-import 'package:Courses/Widget/AppDialogs.dart';
-import 'package:Courses/Widget/CustomAppButton.dart';
-import 'package:Courses/Widget/HelperWigets.dart';
+import 'package:Science/Bloc/AuthBloc.dart';
+import 'package:Science/DataStore.dart';
+import 'package:Science/Extensions/StringsEx.dart';
+import 'package:Science/Helper/AppColors.dart';
+import 'package:Science/Helper/AppTextStyle.dart';
+import 'package:Science/Helper/Utils.dart';
+import 'package:Science/Views/Auth/SignUpUI.dart';
+import 'package:Science/Views/BaseUI.dart';
+import 'package:Science/Views/Home/HomeUI.dart';
+import 'package:Science/Views/Home/SubHomeUI.dart';
+import 'package:Science/Widget/AppDialogs.dart';
+import 'package:Science/Widget/CustomAppButton.dart';
+import 'package:Science/Widget/HelperWigets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/app_bar.dart';
@@ -134,7 +134,7 @@ class _SignInIUState extends BaseUIState<SignInIU> {
                     ),
                     SizedBox(height: 24,),
                     InkWell(
-                      child: helper.mainTextView(texts: ["هل تمتلك حساباً ؟"],textAlign: TextAlign.start,textsStyle: [
+                      child: helper.mainTextView(texts: ["انشاء حساب جديد"],textAlign: TextAlign.start,textsStyle: [
                         TextStyle(color: AppColors.primary,fontSize: 18,decoration: TextDecoration.underline)]),
                       onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(

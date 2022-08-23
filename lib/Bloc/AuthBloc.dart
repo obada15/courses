@@ -2,8 +2,8 @@
 
 import 'dart:io';
 
-import 'package:Courses/Bloc/BaseBloc.dart';
-import 'package:Courses/Models/User.dart';
+import 'package:Science/Bloc/BaseBloc.dart';
+import 'package:Science/Models/User.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../DataStore.dart';

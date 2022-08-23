@@ -1,14 +1,14 @@
-import 'package:Courses/Bloc/QuizBloc.dart';
-import 'package:Courses/Helper/AppColors.dart';
-import 'package:Courses/Helper/AppTextStyle.dart';
-import 'package:Courses/Helper/ThemeConstant.dart';
-import 'package:Courses/Models/QuizModel.dart';
-import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/Home/HomeUI.dart';
-import 'package:Courses/Widget/AppDialogs.dart';
-import 'package:Courses/Widget/CustomAppButton.dart';
-import 'package:Courses/Widget/DiscoButton.dart';
-import 'package:Courses/Widget/HelperWigets.dart';
+import 'package:Science/Bloc/QuizBloc.dart';
+import 'package:Science/Helper/AppColors.dart';
+import 'package:Science/Helper/AppTextStyle.dart';
+import 'package:Science/Helper/ThemeConstant.dart';
+import 'package:Science/Models/QuizModel.dart';
+import 'package:Science/Views/BaseUI.dart';
+import 'package:Science/Views/Home/HomeUI.dart';
+import 'package:Science/Widget/AppDialogs.dart';
+import 'package:Science/Widget/CustomAppButton.dart';
+import 'package:Science/Widget/DiscoButton.dart';
+import 'package:Science/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 

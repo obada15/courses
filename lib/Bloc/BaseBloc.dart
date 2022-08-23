@@ -1,5 +1,5 @@
-import 'package:Courses/DataStore.dart';
-import 'package:Courses/Views/Auth/SplashUI.dart';
+import 'package:Science/DataStore.dart';
+import 'package:Science/Views/Auth/SplashUI.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/rxdart.dart';

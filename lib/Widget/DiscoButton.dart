@@ -1,4 +1,4 @@
-import 'package:Courses/Helper/AppColors.dart';
+import 'package:Science/Helper/AppColors.dart';
 import 'package:flutter/material.dart';
 
 typedef OnButtonPressed = void Function();

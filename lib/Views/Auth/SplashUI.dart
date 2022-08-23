@@ -1,9 +1,9 @@
 
-import 'package:Courses/Bloc/AuthBloc.dart';
-import 'package:Courses/Extensions/StringsEx.dart';
-import 'package:Courses/Views/Auth/SignInUI.dart';
-import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/Home/HomeUI.dart';
+import 'package:Science/Bloc/AuthBloc.dart';
+import 'package:Science/Extensions/StringsEx.dart';
+import 'package:Science/Views/Auth/SignInUI.dart';
+import 'package:Science/Views/BaseUI.dart';
+import 'package:Science/Views/Home/HomeUI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/app_bar.dart';
@@ -39,8 +39,8 @@ class _SplashUIState extends BaseUIState<SplashUI> {
             // height: MediaQuery.of(context).size.width * 0.6,
             child: Image.asset(
               "logo.png".assets,
-              width: 130,
-              height: 130,
+              width: 300,
+              height: 300,
             ),
           ),
         ),

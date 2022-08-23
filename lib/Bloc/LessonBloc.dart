@@ -1,7 +1,7 @@
 
-import 'package:Courses/Models/LessonModel.dart';
-import 'package:Courses/Resources/ApiProvider.dart';
-import 'package:Courses/Widget/AppDialogs.dart';
+import 'package:Science/Models/LessonModel.dart';
+import 'package:Science/Resources/ApiProvider.dart';
+import 'package:Science/Widget/AppDialogs.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../Models/SubjectModel.dart';

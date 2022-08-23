@@ -1,9 +1,9 @@
-import 'package:Courses/Bloc/BaseBloc.dart';
-import 'package:Courses/Bloc/GeneralBloc.dart';
-import 'package:Courses/DataStore.dart';
-import 'package:Courses/Resources/AppMsg.dart';
-import 'package:Courses/Views/Auth/SplashUI.dart';
-import 'package:Courses/Widget/HelperWigets.dart';
+import 'package:Science/Bloc/BaseBloc.dart';
+import 'package:Science/Bloc/GeneralBloc.dart';
+import 'package:Science/DataStore.dart';
+import 'package:Science/Resources/AppMsg.dart';
+import 'package:Science/Views/Auth/SplashUI.dart';
+import 'package:Science/Widget/HelperWigets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 

@@ -1,15 +1,15 @@
 
 import 'dart:io';
 
-import 'package:Courses/Bloc/HomeBloc.dart';
-import 'package:Courses/Extensions/StringsEx.dart';
-import 'package:Courses/Helper/AppColors.dart';
-import 'package:Courses/Helper/AppTextStyle.dart';
-import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/Course/MyCourses.dart';
-import 'package:Courses/Views/Quiz/MyQuizzes.dart';
-import 'package:Courses/Views/Quiz/Quizes.dart';
-import 'package:Courses/Views/Home/SubHomeUI.dart';
+import 'package:Science/Bloc/HomeBloc.dart';
+import 'package:Science/Extensions/StringsEx.dart';
+import 'package:Science/Helper/AppColors.dart';
+import 'package:Science/Helper/AppTextStyle.dart';
+import 'package:Science/Views/BaseUI.dart';
+import 'package:Science/Views/Course/MyCourses.dart';
+import 'package:Science/Views/Quiz/MyQuizzes.dart';
+import 'package:Science/Views/Quiz/Quizes.dart';
+import 'package:Science/Views/Home/SubHomeUI.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:Courses/Bloc/GeneralBloc.dart';
-import 'package:Courses/DataStore.dart';
-import 'package:Courses/Views/Auth/SplashUI.dart';
+import 'package:Science/Bloc/GeneralBloc.dart';
+import 'package:Science/DataStore.dart';
+import 'package:Science/Views/Auth/SplashUI.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto/crypto.dart';
 

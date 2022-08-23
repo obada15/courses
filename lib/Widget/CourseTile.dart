@@ -1,8 +1,8 @@
-import 'package:Courses/Bloc/SubjectBloc.dart';
-import 'package:Courses/Resources/ApiProvider.dart';
-import 'package:Courses/Views/Course/LessonsUI.dart';
-import 'package:Courses/Widget/AppDialogs.dart';
-import 'package:Courses/Widget/HelperWigets.dart';
+import 'package:Science/Bloc/SubjectBloc.dart';
+import 'package:Science/Resources/ApiProvider.dart';
+import 'package:Science/Views/Course/LessonsUI.dart';
+import 'package:Science/Widget/AppDialogs.dart';
+import 'package:Science/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';

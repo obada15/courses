@@ -1,6 +1,6 @@
-import 'package:Courses/Helper/AppColors.dart';
-import 'package:Courses/Resources/ApiProvider.dart';
-import 'package:Courses/Views/Course/Courses.dart';
+import 'package:Science/Helper/AppColors.dart';
+import 'package:Science/Resources/ApiProvider.dart';
+import 'package:Science/Views/Course/Courses.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'package:Courses/Bloc/SubjectBloc.dart';
-import 'package:Courses/DataStore.dart';
-import 'package:Courses/Helper/AppColors.dart';
-import 'package:Courses/Helper/AppTextStyle.dart';
-import 'package:Courses/Helper/ThemeConstant.dart';
-import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Widget/HelperWigets.dart';
+import 'package:Science/Bloc/SubjectBloc.dart';
+import 'package:Science/DataStore.dart';
+import 'package:Science/Helper/AppColors.dart';
+import 'package:Science/Helper/AppTextStyle.dart';
+import 'package:Science/Helper/ThemeConstant.dart';
+import 'package:Science/Views/BaseUI.dart';
+import 'package:Science/Widget/HelperWigets.dart';
+import 'package:Science/Helper/AppColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -115,16 +116,7 @@ class _VideoViewState extends BaseUIState<VideoView> {
                                   maxLines: 1,
                                 ),
                               ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.settings,
-                                  color: Colors.white,
-                                  size: 25.0,
-                                ),
-                                onPressed: () {
-                                  // log('Settings Tapped!');
-                                },
-                              ),
+
                             ],
                             onReady: () {
                               _isPlayerReady = true;

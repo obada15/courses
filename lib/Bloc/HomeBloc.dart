@@ -1,5 +1,5 @@
 
-import 'package:Courses/Bloc/BaseBloc.dart';
+import 'package:Science/Bloc/BaseBloc.dart';
 
 class HomeBloc extends BaseBloc{
 

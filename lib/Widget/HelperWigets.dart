@@ -1,4 +1,4 @@
-import 'package:Courses/Extensions/StringsEx.dart';
+import 'package:Science/Extensions/StringsEx.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

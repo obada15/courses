@@ -1,16 +1,16 @@
 
-import 'package:Courses/Bloc/QuizBloc.dart';
-import 'package:Courses/Bloc/SubjectBloc.dart';
-import 'package:Courses/DataStore.dart';
-import 'package:Courses/Helper/AppColors.dart';
-import 'package:Courses/Helper/AppTextStyle.dart';
-import 'package:Courses/Models/QuizModel.dart';
-import 'package:Courses/Models/SubjectModel.dart';
-import 'package:Courses/Views/BaseUI.dart';
-import 'package:Courses/Views/Quiz/QuizUI.dart';
-import 'package:Courses/Widget/AppDialogs.dart';
-import 'package:Courses/Widget/CourseTile.dart';
-import 'package:Courses/Widget/HelperWigets.dart';
+import 'package:Science/Bloc/QuizBloc.dart';
+import 'package:Science/Bloc/SubjectBloc.dart';
+import 'package:Science/DataStore.dart';
+import 'package:Science/Helper/AppColors.dart';
+import 'package:Science/Helper/AppTextStyle.dart';
+import 'package:Science/Models/QuizModel.dart';
+import 'package:Science/Models/SubjectModel.dart';
+import 'package:Science/Views/BaseUI.dart';
+import 'package:Science/Views/Quiz/QuizUI.dart';
+import 'package:Science/Widget/AppDialogs.dart';
+import 'package:Science/Widget/CourseTile.dart';
+import 'package:Science/Widget/HelperWigets.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
