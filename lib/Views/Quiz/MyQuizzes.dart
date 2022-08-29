@@ -18,6 +18,7 @@ class MyQuizzes extends BaseUI<QuizBloc> {
 }
 
 class _MyQuizzesState extends BaseUIState<MyQuizzes> {
+  QuizBloc bloc= QuizBloc();
 
   @override
   void initState() {
@@ -53,7 +54,7 @@ class _MyQuizzesState extends BaseUIState<MyQuizzes> {
   Widget bodyUI() {
     return StreamBuilder<MyQuizModel?>(
       //favorite api stream
-        stream: widget.bloc!.dataControllerMyQuizzes,
+        stream: bloc!.dataControllerMyQuizzes,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if(snapshot.data!.code==401)
@@ -127,8 +128,8 @@ class _MyQuizzesState extends BaseUIState<MyQuizzes> {
   @override
   void retry() {
     super.retry();
-    widget.bloc!.dataControllerMyQuizzes.sink.add(null);
-    widget.bloc!.getMyQuizRequest();
+    bloc!.dataControllerMyQuizzes.sink.add(null);
+    bloc!.getMyQuizRequest();
   }
   @override
   void init() {

@@ -57,13 +57,11 @@ class UserM{
     this.first_name,
     this.last_name,
     this.mobile_number,
-    this.email,
   });
 
   String? first_name;
   String? last_name;
   String? mobile_number;
-  String? email;
   int? id;
 
   factory UserM.fromJson(Map<String, dynamic> json) => UserM(
@@ -71,7 +69,6 @@ class UserM{
     first_name: json["first_name"] == null ? null : json["first_name"],
     last_name: json["last_name"] == null ? null : json["last_name"],
     mobile_number: json["mobile_number"] == null ? null : json["mobile_number"],
-    email: json["email"] == null ? null : json["email"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -79,7 +76,6 @@ class UserM{
     "first_name": first_name == null ? null : first_name,
     "last_name": last_name == null ? null : last_name,
     "mobile_number": mobile_number == null ? null : mobile_number,
-    "email": email == null ? null : email,
   };
 }
 
@@ -89,7 +85,6 @@ class User {
     this.userId,
     this.firstName,
     this.lastName,
-    this.email,
     this.phone,
     this.idImage,
     this.password,
@@ -111,7 +106,6 @@ class User {
     firstName: json["first_name"] == null ? null : json[" first_name"],
     lastName: json["last_name"] == null ? null : json["last_name"],
     phone: json["mobile_number"] == null ? null : json["mobile_number"],
-    email: json["email"] == null ? null : json["email"],
     idImage: json["id_image"] == null ? null : json["id_image"],
   );
 
@@ -121,7 +115,6 @@ class User {
       "last_name": lastName,
       "mobile_number": phone,
       "password": password,
-      "email": email,
       "id_image": (idImage == null || (idImage ?? "").isEmpty ) ? null : await MultipartFile.fromFile(idImage ?? "", filename: (displayImageName ?? "file"),) ,
     });
     return _formData;

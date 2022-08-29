@@ -30,7 +30,7 @@ class _CoursesState extends BaseUIState<Courses> {
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "Courses",
+        "الدورات",
         nameUI: "Courses"
     );
   }

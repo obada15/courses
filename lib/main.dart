@@ -13,8 +13,8 @@ main () async {
   await dataStore.getUser();
 
 
-  if(Platform.isAndroid)
-  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  //if(Platform.isAndroid)
+  //await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 
   runApp(MyApp());
 }

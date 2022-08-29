@@ -19,7 +19,7 @@ class SubHomeUI extends BaseUI<SubjectBloc> {
 }
 
 class _SubHomeUIState extends BaseUIState<SubHomeUI> {
-
+  SubjectBloc bloc= SubjectBloc();
   @override
   void initState() {
     // TODO: implement initState
@@ -40,7 +40,7 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
   Widget bodyUI() {
     return StreamBuilder<SubjectModel?>(
       //favorite api stream
-        stream: widget.bloc!.dataController,
+        stream: bloc!.dataController,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == null || snapshot.data!.subjects!.isEmpty) {
@@ -106,7 +106,7 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                                 retry();
                               },
                               is_mine:data!.courses![index].is_mine! ,
-                              bloc: widget.bloc!,
+                              bloc: bloc!,
                             );
                           }),
                     ),
@@ -139,7 +139,7 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
                                 retry();
                               },
                               is_mine:1 ,
-                              bloc: widget.bloc!,
+                              bloc: bloc!,
                             );
                           }),
                     ),
@@ -211,8 +211,8 @@ class _SubHomeUIState extends BaseUIState<SubHomeUI> {
   @override
   void retry() {
     super.retry();
-    widget.bloc!.dataController.sink.add(null);
-    widget.bloc!.getRequest();
+    bloc!.dataController.sink.add(null);
+    bloc!.getRequest();
   }
   @override
   void init() {

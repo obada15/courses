@@ -55,7 +55,7 @@ class _QuizResultState  extends BaseUIState<ResultQuizUI> {
     return helper.mainAppBar(
         context,
         scaffoldKey,
-        "Quiz Result",
+        "نتيجة الاختبار",
         nameUI: "Quiz Result"
     );
   }

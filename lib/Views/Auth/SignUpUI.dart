@@ -19,6 +19,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/app_bar.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -30,14 +31,12 @@ class SignUpUI extends BaseUI<AuthBloc> {
 }
 class _SignUpUIState extends BaseUIState<SignUpUI>{
 
-  FocusNode email = FocusNode();
   FocusNode password = FocusNode();
   FocusNode confirmPassword = FocusNode();
   FocusNode phone = FocusNode();
   FocusNode firstName = FocusNode();
   FocusNode lastName = FocusNode();
 
-  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -90,15 +89,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                       SizedBox(
                         height: 8,
                       ),
-                      Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: helper.getTextField(emailController, false, email, email,"البريد الالكتروني",inputType:
-                        TextInputType.emailAddress,pattern: Utils.getEmailPattern,errorMessage: "email validator",),
-                      ),
 
-                      SizedBox(
-                        height: 8,
-                      ),
                       Directionality(
                         textDirection: TextDirection.rtl,
                         child:helper.getTextField(phoneController, false, phone, phone,"رقم الهاتف",inputType:
@@ -143,7 +134,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                             });
                             User user= new User(firstName:firstNameController.text ,lastName:lastNameController.text
                               ,phone:phoneController.text ,password:passwordController.text
-                              ,email:emailController.text ,idImage:file!.path,displayImageName: file!.path.split('/').last, );
+                              ,idImage:file!.path,displayImageName: file!.path.split('/').last, );
                             widget.bloc!.signUp(
                                  user: user,
                                 onError: (val){
@@ -158,7 +149,8 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                                   });
                                   if(val.code == 200)
                                   {
-                                    showAlertDialog(context,val.message);
+                                    //showAlertDialog(context,val.message);
+                                    Fluttertoast.showToast(msg: val.message,toastLength: Toast.LENGTH_LONG);
                                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
                                         builder: (context) => SignInIU()
                                     ),(route){

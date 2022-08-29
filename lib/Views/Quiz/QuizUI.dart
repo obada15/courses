@@ -27,7 +27,7 @@ class QuizUI extends BaseUI<QuizBloc> {
 }
 
 class _QuizUIState extends BaseUIState<QuizUI> {
-
+  QuizBloc bloc=QuizBloc();
   AppLifecycleState? state;
   Map<int, OptionSelection> _optionSerial = {};
   List<QuestionAnswer>answers=[];
@@ -64,7 +64,7 @@ class _QuizUIState extends BaseUIState<QuizUI> {
   Widget bodyUI() {
     return StreamBuilder<QuestionModel?>(
       //favorite api stream
-        stream: widget.bloc!.dataControllerQuestions,
+        stream: bloc!.dataControllerQuestions,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == null || snapshot.data!.questions!.isEmpty) {
@@ -431,8 +431,8 @@ class _QuizUIState extends BaseUIState<QuizUI> {
   @override
   void retry() {
     super.retry();
-    widget.bloc!.dataController.sink.add(null);
-    widget.bloc!.getQuestionsRequest(widget.quizID);
+    bloc!.dataController.sink.add(null);
+    bloc!.getQuestionsRequest(widget.quizID);
   }
   @override
   void init() {
