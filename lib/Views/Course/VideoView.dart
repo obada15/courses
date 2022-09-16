@@ -43,6 +43,7 @@ class _VideoViewState extends BaseUIState<VideoView> {
     );
   }
   bool landscape=false;
+  bool portrait=false;
   @override
   Widget build(BuildContext context) {
     return OrientationBuilder(builder:
@@ -53,7 +54,7 @@ class _VideoViewState extends BaseUIState<VideoView> {
         landscape=false;
       }
       return Scaffold(
-        appBar: landscape?AppBar(toolbarHeight: 0,):AppBar(
+        appBar: landscape||portrait?AppBar(toolbarHeight: 0,):AppBar(
           backgroundColor: AppColors.white,
 
           centerTitle: true,
@@ -90,7 +91,7 @@ class _VideoViewState extends BaseUIState<VideoView> {
                   alignment: AlignmentDirectional.topStart,
                   children: [
                     Container(
-                        height:landscape?MediaQuery.of(context).size.height: MediaQuery.of(context).size.height/3,
+                        height:landscape||portrait?MediaQuery.of(context).size.height: MediaQuery.of(context).size.height/3,
                         width: MediaQuery.of(context).size.width,
                         child:  YoutubePlayerBuilder(
                           onExitFullScreen: () {
@@ -116,8 +117,16 @@ class _VideoViewState extends BaseUIState<VideoView> {
                                   maxLines: 1,
                                 ),
                               ),
+                              Padding(padding: EdgeInsets.all(10),child:
+                              InkWell(child: Icon(Icons.expand,color: AppColors.white,),onTap: (){
+                                print("RRRRR");
+                                setState(() {
+                                  portrait=!portrait;
+                                });
 
+                              },),)
                             ],
+
                             onReady: () {
                               _isPlayerReady = true;
                             },
@@ -130,7 +139,7 @@ class _VideoViewState extends BaseUIState<VideoView> {
                           builder: (context, player) => Scaffold(
                             body: ListView(
                               children: [
-                                player,
+                                Container(child: player,height:landscape||portrait?MediaQuery.of(context).size.height: MediaQuery.of(context).size.height/3)
                               ],
                             ),
                           ),
@@ -139,7 +148,7 @@ class _VideoViewState extends BaseUIState<VideoView> {
                     Padding(padding: EdgeInsets.symmetric(vertical: 50,horizontal: 10),child: Text(dataStore!.user!.data!.user!.id.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: AppColors.black),),)
                   ],
                 ),
-                landscape?Container(height: 0,): Container(
+                landscape||portrait?Container(height: 0,): Container(
                   margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                   child:Padding(child:
                   /*Text("مرض كورو (بالإنجليزية: kuru)‏ مرض تدريجي في الجهاز العصبي المركزي الذي هو نوع من التهاب الدماغ الإسفنجي المعدي موجود في البشر يتسم بتزايد انعدام التناسق الحركي ويصل إلى حد الشلل والوفاة في غضون سنة من ظهور الأعراض، يعتقد أنه ينتقل عن طريق آكل لحوم البشر، خاصة عندما يأكلوا الدماغ، حيث أن جسيمات البريون تتركز بشكل خاص. المرض اختفى تقريبا عندما تم التخلي عن أكل لحوم البشر. كورو مرض غير قابل للشفاء ومن اضطرابات الجهاز العصبي. ومن المعروف عن هذا الوباء انه انتشر في بابوا غينيا الجديدة في منتصف القرن العشرين، ووقت سابق.",
@@ -181,29 +190,29 @@ class _VideoViewState extends BaseUIState<VideoView> {
     _videoMetaData = const YoutubeMetaData();
     _playerState = PlayerState.unknown;
   }
-   void listener() {
-     if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-       setState(() {
-         _playerState = _controller.value.playerState;
-         _videoMetaData = _controller.metadata;
-       });
-     }
-   }
+  void listener() {
+    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+      setState(() {
+        _playerState = _controller.value.playerState;
+        _videoMetaData = _controller.metadata;
+      });
+    }
+  }
 
-   @override
-   void deactivate() {
-     // Pauses video while navigating to next page.
-     _controller.pause();
-     super.deactivate();
-   }
+  @override
+  void deactivate() {
+    // Pauses video while navigating to next page.
+    _controller.pause();
+    super.deactivate();
+  }
 
-   @override
-   void dispose() {
-     _controller.dispose();
-     _idController.dispose();
-     _seekToController.dispose();
-     super.dispose();
-   }
+  @override
+  void dispose() {
+    _controller.dispose();
+    _idController.dispose();
+    _seekToController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget buildUI(BuildContext context) {
