@@ -68,7 +68,11 @@ abstract class BaseUIState<basePage extends BaseUI> extends State<basePage> {
                     return helper.mainTryAgainWidget(context, retry);
                     // return Container(child: Center(child: Text(snapshot.data.data.toString()),),);
                   }
-                  return this.buildUI(context);
+                  return WillPopScope(  child:this.buildUI(context),onWillPop: () async{
+                    print("TTTTTTTTTTT");
+                    Navigator.of(context).pop(1);
+                    return  true;
+                  },);
                 }),
           ],
         ),

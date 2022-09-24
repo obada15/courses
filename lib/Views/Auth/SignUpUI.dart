@@ -11,6 +11,7 @@ import 'package:Science/Helper/Utils.dart';
 import 'package:Science/Models/User.dart';
 import 'package:Science/Views/Auth/SignInUI.dart';
 import 'package:Science/Views/BaseUI.dart';
+import 'package:Science/Views/Home/HomeUI.dart';
 import 'package:Science/Views/Home/SubHomeUI.dart';
 import 'package:Science/Widget/AppDialogs.dart';
 import 'package:Science/Widget/CustomAppButton.dart';
@@ -64,7 +65,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: MediaQuery.of(context).size.height *0.02,
+                  height: MediaQuery.of(context).size.height *0.1,
                 ),
 
                 Container(
@@ -115,11 +116,11 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                       SizedBox(
                         height: 20,
                       ),
-                      showImage(""),
+                     // showImage(""),
                       SizedBox(
                         height: 8,
                       ),
-                      SizedBox(height: 34,),
+                      SizedBox(height: 100,),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: CustomAppButton(
@@ -134,7 +135,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                             });
                             User user= new User(firstName:firstNameController.text ,lastName:lastNameController.text
                               ,phone:phoneController.text ,password:passwordController.text
-                              ,idImage:file!.path,displayImageName: file!.path.split('/').last, );
+                              ,/*idImage:file!.path,displayImageName: file!.path.split('/').last,*/ );
                             widget.bloc!.signUp(
                                  user: user,
                                 onError: (val){
@@ -149,13 +150,20 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                                   });
                                   if(val.code == 200)
                                   {
+                                    print(val);
+                                    print("44444444444444444");
+                                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                                        builder: (context) => HomeUI()
+                                    ),(route){
+                                      return false;
+                                    });
                                     //showAlertDialog(context,val.message);
-                                    Fluttertoast.showToast(msg: val.message,toastLength: Toast.LENGTH_LONG);
+                                   /* Fluttertoast.showToast(msg: val.message,toastLength: Toast.LENGTH_LONG);
                                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
                                         builder: (context) => SignInIU()
                                     ),(route){
                                       return false;
-                                    });
+                                    });*/
 
                                   }
                                   else showErrorDialog(context, val.message.toString()??'');
@@ -178,9 +186,9 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
       ),
     );
   }
-  Future<File>? imageFile;
-  late XFile? file=new XFile("");
-
+ // Future<File>? imageFile;
+ // late XFile? file=new XFile("");
+/*
   Future getImage() async {
     final ImagePicker _picker = ImagePicker();
 
@@ -281,7 +289,7 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
         else return Container();
       },
     );
-  }
+  }*/
   @override
   void init() {
     widget.withRefresh=false;
@@ -311,11 +319,11 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
       showErrorDialog(context, "كلمة السر لا تطابق تاكيد كلمة السر");
       return false;
     }
-    if(file!.path.isEmpty)
+    /*if(file!.path.isEmpty)
       {
         showErrorDialog(context, "اضافة صورة الهوية امر ضروري");
         return false;
-      }
+      }*/
     return true;
 
   }

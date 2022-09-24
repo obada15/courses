@@ -86,7 +86,7 @@ class User {
     this.firstName,
     this.lastName,
     this.phone,
-    this.idImage,
+   // this.idImage,
     this.password,
     this.displayImageName
   });
@@ -97,7 +97,7 @@ class User {
   String? email;
   String? password;
   String? phone;
-  String? idImage;
+//  String? idImage;
   String? displayImageName;
 
 
@@ -106,7 +106,7 @@ class User {
     firstName: json["first_name"] == null ? null : json[" first_name"],
     lastName: json["last_name"] == null ? null : json["last_name"],
     phone: json["mobile_number"] == null ? null : json["mobile_number"],
-    idImage: json["id_image"] == null ? null : json["id_image"],
+   // idImage: json["id_image"] == null ? null : json["id_image"],
   );
 
   Future<FormData> toJson() async {
@@ -115,7 +115,7 @@ class User {
       "last_name": lastName,
       "mobile_number": phone,
       "password": password,
-      "id_image": (idImage == null || (idImage ?? "").isEmpty ) ? null : await MultipartFile.fromFile(idImage ?? "", filename: (displayImageName ?? "file"),) ,
+   //   "id_image": (idImage == null || (idImage ?? "").isEmpty ) ? null : await MultipartFile.fromFile(idImage ?? "", filename: (displayImageName ?? "file"),) ,
     });
     return _formData;
   }

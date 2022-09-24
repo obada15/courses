@@ -16,34 +16,18 @@ class AuthBloc extends BaseBloc{
 
   PublishSubject<User> dataController = PublishSubject<User>();
   Stream<User> get dataStream => dataController.stream;
-/*
-  getRequest({onData,onError}){
-    apiProvider.getProfile().then((value) => {
-      dataController.sink.add(value)
-    }, onError:(error){
-      handleError(error);
-      if (onError != null){
-        onError(error);
-      }
-    });
-  }
-*/
+
   signUp(
   {User? user,onData,onError}) {
     apiProvider.signUp(user!).then((value) {
-      onData(value);
-
-      /*dataStore.setUser(value).then((_) {
-        // genBloc.updateToken(notificationHelper.token);
-      });*/
+      dataStore.setUser(value).then((_) {
+        onData(value);
+      });
     }, onError:(error){
       print("(Un-handler x) signUp AppMsg error handler herer ${error.toString()} ");
-
-      //showErrorDialog(genBloc.navigatorKey.currentContext,error is AppMsg ? error.data.toString() :  error.toString());
       if (onError != null){
         onError(error);
       }
-      // handleError(error);
     });
 
   }
