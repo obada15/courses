@@ -127,9 +127,9 @@ class _LessonsUIState extends BaseUIState<LessonsUI> with SingleTickerProviderSt
             return TabBarView(
               controller: _controller,
               children: [
-                Column(
+                SingleChildScrollView(child: Column(
                     children: cardsLessons
-                ),
+                ),),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
                     decoration: ThemeConstant.roundBoxDeco(),

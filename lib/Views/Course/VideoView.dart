@@ -93,7 +93,7 @@ class _VideoViewState extends BaseUIState<VideoView> {
                     Container(
                         height:landscape||portrait?MediaQuery.of(context).size.height: MediaQuery.of(context).size.height/3,
                         width: MediaQuery.of(context).size.width,
-                        child:  YoutubePlayerBuilder(
+                        child:Padding(child:   YoutubePlayerBuilder(
                           onExitFullScreen: () {
                             // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
                             SystemChrome.setPreferredOrientations(DeviceOrientation.values);
@@ -143,9 +143,9 @@ class _VideoViewState extends BaseUIState<VideoView> {
                               ],
                             ),
                           ),
-                        )
+                        ),padding:EdgeInsets.only(bottom:_controller.value.isFullScreen&&_playerState.name.compareTo("playing")==0? 36:0,top:_controller.value.isFullScreen&&_playerState.name.compareTo("playing")==0? 30:0))
                     ),
-                    Padding(padding: EdgeInsets.symmetric(vertical: 50,horizontal: 10),child: Text(dataStore!.user!.data!.user!.id.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: AppColors.black),),)
+                    Padding(padding: EdgeInsets.symmetric(vertical: 30,horizontal: _controller.value.isFullScreen?75:20),child: Text(dataStore!.user!.data!.user!.id.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: AppColors.black),),)
                   ],
                 ),
                 landscape||portrait?Container(height: 0,): Container(
@@ -195,6 +195,12 @@ class _VideoViewState extends BaseUIState<VideoView> {
       setState(() {
         _playerState = _controller.value.playerState;
         _videoMetaData = _controller.metadata;
+      });
+    }
+    if (_isPlayerReady && mounted && _controller.value.isFullScreen) {
+      setState(() {
+        _playerState = _controller.value.playerState;
+        print("DDDDDDDDD "+_playerState.index.toString()+" "+_playerState.name);
       });
     }
   }
