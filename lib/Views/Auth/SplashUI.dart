@@ -38,8 +38,8 @@ class _SplashUIState extends BaseUIState<SplashUI> {
             // width: MediaQuery.of(context).size.width * 0.6,
             // height: MediaQuery.of(context).size.width * 0.6,
             child: Image.asset(
-              "logo.png".assets,
-              width: 300,
+              "logo.jpeg".assets,
+              width: 350,
               height: 300,
             ),
           ),

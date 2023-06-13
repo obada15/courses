@@ -116,7 +116,6 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                       SizedBox(
                         height: 20,
                       ),
-                     // showImage(""),
                       SizedBox(
                         height: 8,
                       ),
@@ -157,13 +156,6 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
                                     ),(route){
                                       return false;
                                     });
-                                    //showAlertDialog(context,val.message);
-                                   /* Fluttertoast.showToast(msg: val.message,toastLength: Toast.LENGTH_LONG);
-                                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-                                        builder: (context) => SignInIU()
-                                    ),(route){
-                                      return false;
-                                    });*/
 
                                   }
                                   else showErrorDialog(context, val.message.toString()??'');
@@ -186,110 +178,6 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
       ),
     );
   }
- // Future<File>? imageFile;
- // late XFile? file=new XFile("");
-/*
-  Future getImage() async {
-    final ImagePicker _picker = ImagePicker();
-
-    file = await _picker.pickImage(source: ImageSource.camera);
-    imageFile=File(file!.path).create();
-
-
-    setState(() {
-      print("mmmmmmmmm"+imageFile.toString());
-      print("mmmmmmmmm"+file!.path.toString());
-    });
-  }
-
-  Widget showImage(String image) {
-    return FutureBuilder<File>(
-      future: imageFile,
-      builder: (BuildContext context, AsyncSnapshot<File> snapshot) {
-        if (snapshot.hasData) {
-          return InkWell(
-            child: Container(
-                child: new Container(
-                  width: 374,
-                  height: 207.0,
-                  decoration: new BoxDecoration(
-                    color: const Color(0xff7c94b6),
-                    image: new DecorationImage(
-                      image: new MemoryImage(snapshot.data!.readAsBytesSync()),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
-                    border: new Border.all(
-                      color: AppColors.gray,
-                      width: 1.0,
-                    ),
-                  ),
-                )
-            ),
-            onTap: () {
-              getImage();
-            },
-          );
-        }
-        else if (null == snapshot.data && image != null && image.isNotEmpty) {
-          return InkWell(
-            child:  new Container(
-              width: 374,
-              height: 207.0,
-              decoration: new BoxDecoration(
-                color: const Color(0xff7c94b6),
-                image: new DecorationImage(
-                  image: new NetworkImage(image),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
-                border: new Border.all(
-                  color: AppColors.gray,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            onTap: () {
-              getImage();
-            },
-          );
-        }
-        else if (null == snapshot.data && (image == null || image.isEmpty)) {
-          print("sasa"+image);
-
-          return InkWell(
-            child: Container(
-                child:Center(
-
-                    child:   Container(
-                        width: 374,
-                        height: 207.0,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(color:AppColors.gray, width: 1),
-                          gradient: LinearGradient(
-                              colors: [Colors.transparent, Colors.transparent],
-                              begin: Alignment.centerRight,
-                              end: Alignment.centerLeft),
-                        ),
-                        child: Center(
-                          child:  Text(
-                            "اضف صورة الهوية الشخصية",
-                            style: TextStyle(fontSize: MediaQuery.of(context).size.width>600?24:20, color: AppColors.gray343),
-                          ),
-                        )
-                    )
-                )
-            ),
-            onTap: () {
-              getImage();
-            },
-          );
-        }
-        else return Container();
-      },
-    );
-  }*/
   @override
   void init() {
     widget.withRefresh=false;
@@ -319,11 +207,6 @@ class _SignUpUIState extends BaseUIState<SignUpUI>{
       showErrorDialog(context, "كلمة السر لا تطابق تاكيد كلمة السر");
       return false;
     }
-    /*if(file!.path.isEmpty)
-      {
-        showErrorDialog(context, "اضافة صورة الهوية امر ضروري");
-        return false;
-      }*/
     return true;
 
   }

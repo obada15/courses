@@ -448,19 +448,6 @@ class HelperWidgets {
       ),
     );
   }
-   void showToast(String text, GlobalKey<ScaffoldState> scaffoldstate) {
-
-    scaffoldstate.currentState!.showSnackBar(
-      SnackBar(
-        content: Text(text),
-        action: SnackBarAction(
-            label: 'Ok',
-            textColor: AppColors.white,
-            disabledTextColor: AppColors.black,
-            onPressed: scaffoldstate.currentState!.hideCurrentSnackBar),
-      ),
-    );
-  }
 
 }
 

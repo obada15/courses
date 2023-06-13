@@ -62,7 +62,7 @@ class _SignInIUState extends BaseUIState<SignInIU> {
                 // width: MediaQuery.of(context).size.height * 0.3 * 16/11,
                 height: MediaQuery.of(context).size.height * 0.22 ,
                 child: Image.asset(
-                    "logo.png".assets,
+                    "logo.jpeg".assets,
                 ),
               ),
               SizedBox(
